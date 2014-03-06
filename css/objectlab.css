@@ -8,6 +8,11 @@ body {
 
 /* Navigation bar customization */
 
+.navbard {
+	color: #DDD;
+}
+
+
 .navbar-brand {
 	font-size: 24px;
 }
