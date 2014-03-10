@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 75px;
 }
 .starter-template {
   padding: 40px 15px;
@@ -11,15 +11,14 @@ body {
 .navbar-objectlab {
   background-color: #FFF;
   border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .navbar-objectlab .navbar-brand {
   color: #777;
   font-size: 29px;
   font-weight: 600;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  height: 80px;
 }
 
 .navbar-objectlab .navbar-brand:hover,
@@ -34,10 +33,10 @@ body {
 
 .navbar-objectlab .navbar-nav > li > a {
   color: #777;
-  padding: 30px;
   font-size: 19px;
   font-weight: 200;
-  
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .navbar-objectlab .navbar-nav > li > a:hover,
@@ -62,7 +61,6 @@ body {
 
 .navbar-objectlab .navbar-toggle {
   border-color: #ddd;
-  margin-top: 23px;
 }
 
 .navbar-objectlab .navbar-toggle:hover,
@@ -79,9 +77,6 @@ body {
   border-color: #e7e7e7;
 }
 
-.navbar-objectlab .navbar-nav > .open > a{
-  padding: 15px;
-}
 
 .navbar-objectlab .navbar-nav > .open > a,
 .navbar-objectlab .navbar-nav > .open > a:hover,
