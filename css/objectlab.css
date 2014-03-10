@@ -10,6 +10,7 @@ body {
 
 .navbar-objectlab{
 	color: #DDD;
+	background-color: #FFF;
 }
 
 .navbar-objectlab a{
@@ -32,7 +33,6 @@ body {
 .navbar-objectlab .nav > li > a:hover,
 .navbar-objectlab .nav > li > a:focus {
   color: #666;
-  background-color: transparent;
 }
 
 
