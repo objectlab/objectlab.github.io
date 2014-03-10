@@ -8,11 +8,41 @@ body {
 
 /* Navigation bar customization */
 
-.navbar {
+.navbar-objectlab{
 	color: #DDD;
 }
 
-
-.navbar-brand {
-	font-size: 24px;
+.navbar-objectlab a{
+	color: #888;
+	font-size: 18px;
+	font-weight: 200;
 }
+
+.navbar-objectlab .active a{
+	font-weight: 400;
+}
+
+.navbar-objectlab .navbar-brand{
+	font-size: 28px;
+	font-weight: 600;
+	color: #666;
+	margin-right: 40px;
+}
+
+.navbar-objectlab .nav > li > a:hover,
+.navbar-objectlab .nav > li > a:focus {
+  color: #666;
+  background-color: transparent;
+}
+
+
+/* Banner */
+
+.banner {
+	height: 490px;
+}
+
+.banner-overview {
+	background:#ffffff url("../img/overview-banner.png") no-repeat center center;
+}
+	
