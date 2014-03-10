@@ -8,41 +8,136 @@ body {
 
 /* Navigation bar customization */
 
-.navbar-objectlab{
-	color: #DDD;
-	background-color: #FFF;
+.navbar-objectlab {
+  background-color: #FFF;
+  border: none;
 }
 
-.navbar-objectlab a{
-	color: #888;
-	font-size: 18px;
-	font-weight: 200;
+.navbar-objectlab .navbar-brand {
+  color: #777;
+  font-size: 29px;
+  font-weight: 600;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  height: 80px;
 }
 
-.navbar-objectlab .active a{
-	font-weight: 400;
+.navbar-objectlab .navbar-brand:hover,
+.navbar-objectlab .navbar-brand:focus {
+  color: #333;
+  background-color: transparent;
 }
 
-.navbar-objectlab .navbar-brand{
-	font-size: 28px;
-	font-weight: 600;
-	color: #666;
-	margin-right: 40px;
+.navbar-objectlab .navbar-text {
+  color: #777;
 }
 
-.navbar-objectlab .nav > li > a:hover,
-.navbar-objectlab .nav > li > a:focus {
-  color: #666;
+.navbar-objectlab .navbar-nav > li > a {
+  color: #777;
+  padding: 30px;
+  font-size: 19px;
+  font-weight: 200;
+  
 }
+
+.navbar-objectlab .navbar-nav > li > a:hover,
+.navbar-objectlab .navbar-nav > li > a:focus {
+  color: #333;
+  background-color: transparent;
+}
+
+.navbar-objectlab .navbar-nav > .active > a,
+.navbar-objectlab .navbar-nav > .active > a:hover,
+.navbar-objectlab .navbar-nav > .active > a:focus {
+  color: #333;
+  font-weight: 400;
+}
+
+.navbar-objectlab .navbar-nav > .disabled > a,
+.navbar-objectlab .navbar-nav > .disabled > a:hover,
+.navbar-objectlab .navbar-nav > .disabled > a:focus {
+  color: #ccc;
+  background-color: transparent;
+}
+
+.navbar-objectlab .navbar-toggle {
+  border-color: #ddd;
+  margin-top: 23px;
+}
+
+.navbar-objectlab .navbar-toggle:hover,
+.navbar-objectlab .navbar-toggle:focus {
+  background-color: #ddd;
+}
+
+.navbar-objectlab .navbar-toggle .icon-bar {
+  background-color: #888;
+}
+
+.navbar-objectlab .navbar-collapse,
+.navbar-objectlab .navbar-form {
+  border-color: #e7e7e7;
+}
+
+.navbar-objectlab .navbar-nav > .open > a{
+  padding: 15px;
+}
+
+.navbar-objectlab .navbar-nav > .open > a,
+.navbar-objectlab .navbar-nav > .open > a:hover,
+.navbar-objectlab .navbar-nav > .open > a:focus {
+  color: #555;
+  background-color: #e7e7e7;
+}
+
+@media (max-width: 767px) {
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a {
+    color: #777;
+  }
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #333;
+    background-color: transparent;
+  }
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #555;
+    background-color: #e7e7e7;
+  }
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #ccc;
+    background-color: transparent;
+  }
+}
+
+.navbar-objectlab .navbar-link {
+  color: #777;
+}
+
+.navbar-objectlab .navbar-link:hover {
+  color: #333;
+}
+
+
 
 
 /* Banner */
 
 .banner {
 	height: 490px;
+	padding-top: 410px;
 }
 
 .banner-overview {
-	background:#ffffff url("../img/overview-banner.png") no-repeat center center;
+	background:#222222 url("../img/overview-banner.png") no-repeat center center;
 }
+
+.banner .navigation-container {
+	height: 80px;
+	background: rgba(255,50,0,0.69);
 	
+}
+
