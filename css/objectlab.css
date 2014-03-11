@@ -123,17 +123,28 @@ body {
 /* Banner */
 
 .banner {
-	height: 490px;
-	padding-top: 410px;
+	padding-top: 420px;
 }
 
 .banner-overview {
-	background:#222222 url("../img/overview-banner.png") no-repeat center center;
+	background:#222222 url("../img/overview-banner.png") no-repeat top center;
 }
 
-.banner .navigation-container {
-	height: 80px;
+/* Subnavigation */
+
+.sub-nav {
 	background: rgba(255,50,0,0.69);
-	
+	min-height: 70px;
+}
+
+.sub-nav .navbar-nav {
+	padding: 15px 20px 15px 20px;
+}
+
+.sub-nav .navbar-nav > li > a {
+  color: #FFF;
+  font-size: 17px;
+  font-weight: 400;
+  padding: 10px 25px 10px 25px;
 }
 
