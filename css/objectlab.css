@@ -1,38 +1,37 @@
+
+
 body {
   padding-top: 75px;
 }
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
+
 
 /* Navigation bar customization */
 
-.navbar-objectlab {
+.navbar-ol {
   background-color: #FFF;
   border: none;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.navbar-objectlab .navbar-brand {
+.navbar-ol .navbar-brand {
   color: #777;
   font-size: 30px;
   font-weight: 600;
   padding-right: 30px;
 }
 
-.navbar-objectlab .navbar-brand:hover,
-.navbar-objectlab .navbar-brand:focus {
+.navbar-ol .navbar-brand:hover,
+.navbar-ol .navbar-brand:focus {
   color: #333;
   background-color: transparent;
 }
 
-.navbar-objectlab .navbar-text {
+.navbar-ol .navbar-text {
   color: #777;
 }
 
-.navbar-objectlab .navbar-nav > li > a {
+.navbar-ol .navbar-nav > li > a {
   color: #777;
   font-size: 18px;
   font-weight: 200;
@@ -40,83 +39,99 @@ body {
   padding-right: 30px;
 }
 
-.navbar-objectlab .navbar-nav > li > a:hover,
-.navbar-objectlab .navbar-nav > li > a:focus {
+.navbar-ol .navbar-nav > li > a:hover,
+.navbar-ol .navbar-nav > li > a:focus {
   color: #333;
   background-color: transparent;
 }
 
-.navbar-objectlab .navbar-nav > .active > a,
-.navbar-objectlab .navbar-nav > .active > a:hover,
-.navbar-objectlab .navbar-nav > .active > a:focus {
+.navbar-ol .navbar-nav > .active > a,
+.navbar-ol .navbar-nav > .active > a:hover,
+.navbar-ol .navbar-nav > .active > a:focus {
   color: #333;
   font-weight: 400;
 }
 
-.navbar-objectlab .navbar-nav > .disabled > a,
-.navbar-objectlab .navbar-nav > .disabled > a:hover,
-.navbar-objectlab .navbar-nav > .disabled > a:focus {
+.navbar-ol .navbar-nav > .disabled > a,
+.navbar-ol .navbar-nav > .disabled > a:hover,
+.navbar-ol .navbar-nav > .disabled > a:focus {
   color: #ccc;
   background-color: transparent;
 }
 
-.navbar-objectlab .navbar-toggle {
+.navbar-ol .navbar-toggle {
   border-color: #ddd;
 }
 
-.navbar-objectlab .navbar-toggle:hover,
-.navbar-objectlab .navbar-toggle:focus {
+.navbar-ol .navbar-toggle:hover,
+.navbar-ol .navbar-toggle:focus {
   background-color: #ddd;
 }
 
-.navbar-objectlab .navbar-toggle .icon-bar {
+.navbar-ol .navbar-toggle .icon-bar {
   background-color: #888;
 }
 
-.navbar-objectlab .navbar-collapse,
-.navbar-objectlab .navbar-form {
+.navbar-ol .navbar-collapse,
+.navbar-ol .navbar-form {
   border-color: #e7e7e7;
 }
 
 
-.navbar-objectlab .navbar-nav > .open > a,
-.navbar-objectlab .navbar-nav > .open > a:hover,
-.navbar-objectlab .navbar-nav > .open > a:focus {
+.navbar-ol .navbar-nav > .open > a,
+.navbar-ol .navbar-nav > .open > a:hover,
+.navbar-ol .navbar-nav > .open > a:focus {
   color: #555;
   background-color: #e7e7e7;
 }
 
 @media (max-width: 767px) {
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a {
+  .navbar-ol .navbar-nav .open .dropdown-menu > li > a {
     color: #777;
   }
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a:hover,
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > li > a:focus {
+  .navbar-ol .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-ol .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #333;
     background-color: transparent;
   }
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a,
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a:hover,
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .active > a:focus {
+  .navbar-ol .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-ol .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-ol .navbar-nav .open .dropdown-menu > .active > a:focus {
     color: #555;
     background-color: #e7e7e7;
   }
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a,
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a:hover,
-  .navbar-objectlab .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+  .navbar-ol .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-ol .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-ol .navbar-nav .open .dropdown-menu > .disabled > a:focus {
     color: #ccc;
     background-color: transparent;
   }
 }
 
-.navbar-objectlab .navbar-link {
+.navbar-ol .navbar-link {
   color: #777;
 }
 
-.navbar-objectlab .navbar-link:hover {
+.navbar-ol .navbar-link:hover {
   color: #333;
 }
 
+.navbar-ol .social-links {
+	padding: 15px 0 0 30px;
+}
+
+.navbar-ol .social-links a{
+	width: 40px;
+	height: 24px;
+}
+
+.navbar-ol .social-links .social:before {
+	color: #777;
+}
+
+.navbar-ol .social-links a:hover.social:before {
+	color: #333;
+}
 
 
 
@@ -146,5 +161,18 @@ body {
   font-size: 17px;
   font-weight: 400;
   padding: 10px 25px 10px 25px;
+}
+
+
+/* Footer */
+
+.footer-ol {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	text-align: center;
+	font-size: 12px;
+	color: #888;
+	border-top: solid 1px #DDD;
+	margin-top: 40px;
 }
 
