@@ -19,6 +19,7 @@ body {
   color: #777;
   font-size: 29px;
   font-weight: 600;
+  padding-right: 30px;
 }
 
 .navbar-objectlab .navbar-brand:hover,
