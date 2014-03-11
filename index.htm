@@ -27,7 +27,8 @@
 	</head>
 
 	<body>
-
+		
+		
 		<div class="navbar navbar-ol navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
@@ -62,17 +63,21 @@
 			</div>
 		</div>
 
+		
+		<!-- CONTENT -->
+		
 		<div class="container">
-			
 			
 			<div class="banner banner-overview">
 				
-				<div class="sub-nav">
+				<div class="sub-nav" role="navigation">
 					<ul class="nav navbar-nav">
-						<li class="active">
-							<a href="#overview">Overview</a>
+						<li class="title">
+							<div class="visible-xs vert-active-ind" >&nbsp;</div>
+							<a href="#overview" >Objectlab Party App</a>
+							<div class="hidden-xs active-ind" > </div>
 						</li>
-						<li>
+						<li class="active">
 							<a href="#ibeacons">iBeacons</a>
 						</li>
 						<li>
@@ -90,95 +95,103 @@
 				
 			</div><!-- /.banner -->
 			
-			<div class="page-header">
-				<h1>Objectlab Party App</h1>
-			</div>
 			
-			<h3>Background</h3>
+			<div class="container page-content">
+
+				<div class="page-header">
+					<h1>Overview</h1>
+				</div>
+				
+				<h3>Background</h3>
+				
+				<p >For the past 13 years, we have thrown (what has become a rather large) Holiday party for our friends and clients in New
+					York. Each year it seems to get a little more complex, simultaneously attempting to top the prior year’s venue and
+					entertainment options that we provide for our guests. It’s not as fun as it sounds. So, in accordance with the time-
+					honored tradition of exponentially increasing our stress level around the Holidays, we decided to throw a technology 
+					component into that mix.
+				</p>
+				
+				<p>
+					In September of last year (2013), we began to toss around ideas for how we might accomplish something like this. We
+					had some general parameters:
+				</p>
+				
+				<ul>
+					<li>
+						slightly irreverent
+					</li>
+					<li>
+						engaging
+					</li>
+					<li>
+						unobtrusive
+					</li>
+					<li>
+						fun! (but not completely stupid)
+					</li>
+				</ul>
+				
+				<h3>The Initial Plan</h3>
+				
+				<p>
+					Ernst and Chris had been working a bit with D3.js recently for our largest client, so we thought it might be interesting to
+					build a visualization of users’ movements in and around the party location (in this case, a bar). Since we assumed that				
+					most or all of the party-goers would have recent smartphones, we thought that maybe we could use bluetooth to sense				
+					where they were and visualize their movements on screen. Googling around, we determined that it might be possible to				
+					embed Raspberry Pi devices around the bar and passively detect users as they moved past them. We thought this 				
+					might be a good idea since it didn’t require anything to be running on the user’s handset (other than bluetooth), and 				
+					would work with both Android and IOS. As Chris found out, in order to do this correctly, you really have to pair with the 				
+					target device (i.e. user’s phone) which would require some user involvement. It would also require an internet connection 				
+					for each device so it could communicate with a server, and then there would be a lot of radio noise, possibly false 				
+					positive detections, yada, yada. We decided to scrap this technique because it seemed too error-prone, had a lot of 				
+					technical risk, and violated a few of our requirements.
+				</p>
+				
+				<h3>The Revised Plan</h3>
+				
+				<p>
+					Chris began to read a bit about Apple’s new iBeacon technology and presented an idea for how we might be able to
+					utilize it for this application. Chris originally found out about it by reading about Estimote’s product line and thought that it
+					would make it a lot simpler to handle the proximity use-cases, AND we didn’t have to fool around with Raspberry Pi’s. 
+					There were a few issues with this: (1) it would only run on IOS; and (2) the delivery time for the Estimotes was about 4 
+					weeks. The clock was ticking so we decided that (1) was ok, but (2) wasn’t an option.
+				</p>
+				
+				<p>
+					We began Googling ‘Raspberry Pi, iBeacon, etc’ and found that you could conﬁgure the Raspberry Pi as an iBeacon
+					device. We collectively decided that this would be faster, and possibly more interesting to some of the geeks that would
+					be at the party.
+				</p>
+				
+				<p>
+					After a lot of internal discussion (read: ‘spirited debate’), the plan we all agreed to (tacitly or otherwise) was the following:
+				</p>
+				
+				<p>
+					We would be build an iPhone app that utilized the iBeacon services of the IOS CoreLocation stack. The app would
+					ostensibly be a ‘game’ which would have two (2) main use-cases: (1) a ‘treasure hunt’ where users would use the app to 
+					ﬁnd hidden ibeacons at the party; and (2) track their proximity to the bar and increment their ‘bar score’ over time. The 
+					user who had the highest bar score or the fastest time to retrieve all of the beacons would win prizes.
+				</p>
+				
+				<p>
+					A server process would track each user’s interactions with the ‘claim’ (or treasure-hunt beacons), and their proximity to
+					the bar via network integration with the app. To enhance the experience, we would build visual displays that would 
+					render (in real-time) each player’s beacon claiming progress and their ‘bar score’ updates (which, unsurprisingly, directly 
+					correlated to how drunk they became.)
+				</p>
+				
+				<p>
+					At this point, we had about 7 weeks to get it all done.
+				</p>
 			
-			<p >For the past 13 years, we have thrown (what has become a rather large) Holiday party for our friends and clients in New
-				York. Each year it seems to get a little more complex, simultaneously attempting to top the prior year’s venue and
-				entertainment options that we provide for our guests. It’s not as fun as it sounds. So, in accordance with the time-
-				honored tradition of exponentially increasing our stress level around the Holidays, we decided to throw a technology 
-				component into that mix.
-			</p>
-			
-			<p>
-				In September of last year (2013), we began to toss around ideas for how we might accomplish something like this. We
-				had some general parameters:
-			</p>
-			
-			<ul>
-				<li>
-					slightly irreverent
-				</li>
-				<li>
-					engaging
-				</li>
-				<li>
-					unobtrusive
-				</li>
-				<li>
-					fun! (but not completely stupid)
-				</li>
-			</ul>
-			
-			<h3>The Initial Plan</h3>
-			
-			<p>
-				Ernst and Chris had been working a bit with D3.js recently for our largest client, so we thought it might be interesting to
-				build a visualization of users’ movements in and around the party location (in this case, a bar). Since we assumed that				
-				most or all of the party-goers would have recent smartphones, we thought that maybe we could use bluetooth to sense				
-				where they were and visualize their movements on screen. Googling around, we determined that it might be possible to				
-				embed Raspberry Pi devices around the bar and passively detect users as they moved past them. We thought this 				
-				might be a good idea since it didn’t require anything to be running on the user’s handset (other than bluetooth), and 				
-				would work with both Android and IOS. As Chris found out, in order to do this correctly, you really have to pair with the 				
-				target device (i.e. user’s phone) which would require some user involvement. It would also require an internet connection 				
-				for each device so it could communicate with a server, and then there would be a lot of radio noise, possibly false 				
-				positive detections, yada, yada. We decided to scrap this technique because it seemed too error-prone, had a lot of 				
-				technical risk, and violated a few of our requirements.
-			</p>
-			
-			<h3>The Revised Plan</h3>
-			
-			<p>
-				Chris began to read a bit about Apple’s new iBeacon technology and presented an idea for how we might be able to
-				utilize it for this application. Chris originally found out about it by reading about Estimote’s product line and thought that it
-				would make it a lot simpler to handle the proximity use-cases, AND we didn’t have to fool around with Raspberry Pi’s. 
-				There were a few issues with this: (1) it would only run on IOS; and (2) the delivery time for the Estimotes was about 4 
-				weeks. The clock was ticking so we decided that (1) was ok, but (2) wasn’t an option.
-			</p>
-			
-			<p>
-				We began Googling ‘Raspberry Pi, iBeacon, etc’ and found that you could conﬁgure the Raspberry Pi as an iBeacon
-				device. We collectively decided that this would be faster, and possibly more interesting to some of the geeks that would
-				be at the party.
-			</p>
-			
-			<p>
-				After a lot of internal discussion (read: ‘spirited debate’), the plan we all agreed to (tacitly or otherwise) was the following:
-			</p>
-			
-			<p>
-				We would be build an iPhone app that utilized the iBeacon services of the IOS CoreLocation stack. The app would
-				ostensibly be a ‘game’ which would have two (2) main use-cases: (1) a ‘treasure hunt’ where users would use the app to 
-				ﬁnd hidden ibeacons at the party; and (2) track their proximity to the bar and increment their ‘bar score’ over time. The 
-				user who had the highest bar score or the fastest time to retrieve all of the beacons would win prizes.
-			</p>
-			
-			<p>
-				A server process would track each user’s interactions with the ‘claim’ (or treasure-hunt beacons), and their proximity to
-				the bar via network integration with the app. To enhance the experience, we would build visual displays that would 
-				render (in real-time) each player’s beacon claiming progress and their ‘bar score’ updates (which, unsurprisingly, directly 
-				correlated to how drunk they became.)
-			</p>
-			
-			<p>
-				At this point, we had about 7 weeks to get it all done.
-			</p>
+			</div> <!-- /.page-content -->
 			
 
 		</div><!-- /.container -->
+		
+		
+		<!-- CONTENT -->
 		
 		<footer class="footer-ol" role="contentinfo">
 			<div class="container">
