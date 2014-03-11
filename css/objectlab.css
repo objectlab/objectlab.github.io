@@ -130,7 +130,7 @@ body {
 }
 
 .sub-nav .navbar-nav > li .active-ind {
-	height: 20px;
+	height: 23px;
 	background:  transparent url("../img/active-indicator.png") no-repeat bottom center;
 }
 
@@ -153,6 +153,7 @@ body {
 .sub-nav .navbar-nav > li.title > a {
   font-size: 24px;
   font-weight: 400;
+  padding-top: 3px;
 }
 
 .sub-nav  .navbar-nav > li > a:hover,
