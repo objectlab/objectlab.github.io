@@ -16,10 +16,12 @@ body {
 }
 
 .navbar-ol .navbar-brand {
-  color: #333;
-  font-size: 30px;
+  color: #4A4A4A;
+  font-size: 38px;
   font-weight: 600;
-  padding-right: 30px;
+  padding: 22px 30px 22px 85px;
+  background:transparent url("/img/OL.png") no-repeat 15px 0px;
+  line-height: 0px;
 }
 
 .navbar-ol .navbar-brand:hover,
@@ -115,15 +117,15 @@ body {
 }
 
 .banner-overview {
-	background:#222222 url("../img/overview-banner.png") no-repeat center top;
+	background:#222222 url("/img/overview-banner.png") no-repeat center top;
 }
 
 .banner-ibeacons {
-	background:#F4F4F4 url("../img/ibeacons-banner.png") no-repeat center 20px;
+	background:#F4F4F4 url("/img/ibeacons-banner.png") no-repeat center 20px;
 }
 
 .banner-server {
-	background:#F4F4F4 url("../img/server-banner.png") no-repeat center 10px;
+	background:#F4F4F4 url("/img/server-banner.png") no-repeat center 10px;
 }
 
 
@@ -145,7 +147,7 @@ body {
 
 .sub-nav .navbar-nav > li .active-ind {
 	height: 23px;
-	background:  transparent url("../img/active-indicator.png") no-repeat bottom center;
+	background:  transparent url("/img/active-indicator.png") no-repeat bottom center;
 }
 
 
@@ -153,7 +155,7 @@ body {
 .sub-nav .navbar-nav > li .vert-active-ind {
 	width: 20px;
 	float: left;
-	background:  transparent url("../img/vert-active-indicator.png") no-repeat -2px center;
+	background:  transparent url("/img/vert-active-indicator.png") no-repeat -2px center;
 	padding-top: 10px;
 }
 
