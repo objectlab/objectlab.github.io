@@ -19,8 +19,8 @@ body {
   color: #4A4A4A;
   font-size: 38px;
   font-weight: 600;
-  padding: 22px 30px 22px 82px;
-  background:transparent url("/img/OL.png") no-repeat 15px 0px;
+  padding: 20px 30px 24px 76px;
+  background:transparent url("/img/OL.png") no-repeat 15px 3px;
   line-height: 0px;
   opacity:0.9;
   filter:alpha(opacity=90);
