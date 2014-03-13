@@ -12,10 +12,11 @@ body {
   border: none;
   padding-top: 10px;
   padding-bottom: 10px;
+  border-bottom: 1px solid #FFF;
 }
 
 .navbar-ol .navbar-brand {
-  color: #777;
+  color: #333;
   font-size: 30px;
   font-weight: 600;
   padding-right: 30px;
@@ -114,8 +115,17 @@ body {
 }
 
 .banner-overview {
-	background:#222222 url("../img/overview-banner.png") no-repeat top center;
+	background:#222222 url("../img/overview-banner.png") no-repeat center top;
 }
+
+.banner-ibeacons {
+	background:#F4F4F4 url("../img/ibeacons-banner.png") no-repeat center 20px;
+}
+
+.banner-server {
+	background:#F4F4F4 url("../img/server-banner.png") no-repeat center 10px;
+}
+
 
 
 /* Subnavigation */
@@ -123,6 +133,10 @@ body {
 .sub-nav {
 	background: rgba(255,50,0,0.69);
 	min-height: 60px;
+}
+
+.affix {
+	top: -355px;
 }
 
 .sub-nav .navbar-nav {
@@ -147,7 +161,7 @@ body {
   color: #FFF;
   font-size: 16px;
   font-weight: 400;
-  padding: 5px 15px 5px 25px;
+  padding: 5px 15px 5px 20px;
 }
 
 .sub-nav .navbar-nav > li.title > a {
