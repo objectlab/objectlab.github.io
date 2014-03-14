@@ -203,7 +203,24 @@ body {
 
 }
 
+.page-content .team-img {
+	float: left;
+	width: 100px;
+	height: 100px;
+	margin-right: 25px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	clear: right;
+}
 
+.page-content .team-member {
+	margin-top: 40px;
+}
+
+.page-content .team-bio {
+	padding-top: 10px;
+	clear: both;
+}
 
 
 
