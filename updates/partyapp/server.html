@@ -24,6 +24,13 @@
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
+		
+		<!-- highlight.js -->
+		<link rel="stylesheet" href="/lib/highlight/styles/default.css">
+		<script src="/lib/highlight/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+		
+		
 	</head>
 
 	<body>
@@ -105,96 +112,280 @@
 					<h1>Server App</h1>
 				</div>
 				
-				<h3>Background</h3>
+				<h2>Server</h2>
 				
-				<p >For the past 13 years, we have thrown (what has become a rather large) Holiday party for our friends and clients in New
-					York. Each year it seems to get a little more complex, simultaneously attempting to top the prior year’s venue and
-					entertainment options that we provide for our guests. It’s not as fun as it sounds. So, in accordance with the time-
-					honored tradition of exponentially increasing our stress level around the Holidays, we decided to throw a technology 
-					component into that mix.
+				<p >In order to capture the activity being driven by the IOS App as well as drive the D3.js visualizations, we needed a server.  
+					The server provided both a network data storage service and general use-case ‘controller’ coordinating the following functions:
 				</p>
-				
-				<p>
-					In September of last year (2013), we began to toss around ideas for how we might accomplish something like this. We
-					had some general parameters:
-				</p>
-				
+
 				<ul>
 					<li>
-						slightly irreverent
+						User Registration
 					</li>
 					<li>
-						engaging
+						User Image Upload
 					</li>
 					<li>
-						unobtrusive
+						Bar Score Update
 					</li>
 					<li>
-						fun! (but not completely stupid)
+						iBeacon claiming
+					</li>
+					<li>
+						Update Leaderboards
 					</li>
 				</ul>
 				
-				<h3>The Initial Plan</h3>
+				<p>Since it was also a web server, it would serve up the images, HTML, javascript, and CSS files for the real-time activity displays. </p>
+				
+				<h2>Components</h2>
 				
 				<p>
-					Ernst and Chris had been working a bit with D3.js recently for our largest client, so we thought it might be interesting to
-					build a visualization of users’ movements in and around the party location (in this case, a bar). Since we assumed that				
-					most or all of the party-goers would have recent smartphones, we thought that maybe we could use bluetooth to sense				
-					where they were and visualize their movements on screen. Googling around, we determined that it might be possible to				
-					embed Raspberry Pi devices around the bar and passively detect users as they moved past them. We thought this 				
-					might be a good idea since it didn’t require anything to be running on the user’s handset (other than bluetooth), and 				
-					would work with both Android and IOS. As Chris found out, in order to do this correctly, you really have to pair with the 				
-					target device (i.e. user’s phone) which would require some user involvement. It would also require an internet connection 				
-					for each device so it could communicate with a server, and then there would be a lot of radio noise, possibly false 				
-					positive detections, yada, yada. We decided to scrap this technique because it seemed too error-prone, had a lot of 				
-					technical risk, and violated a few of our requirements.
+					The following describes the software components that were used to build the server.  A more detailed description and installation 
+					instructions can be found here:  
+					<a href="https://github.com/objectlab/ObjectlabPartyServer">https://github.com/objectlab/ObjectlabPartyServer</a>
 				</p>
 				
-				<h3>The Revised Plan</h3>
+				<h3>Hosting</h3>
 				
 				<p>
-					Chris began to read a bit about Apple’s new iBeacon technology and presented an idea for how we might be able to
-					utilize it for this application. Chris originally found out about it by reading about Estimote’s product line and thought that it
-					would make it a lot simpler to handle the proximity use-cases, AND we didn’t have to fool around with Raspberry Pi’s. 
-					There were a few issues with this: (1) it would only run on IOS; and (2) the delivery time for the Estimotes was about 4 
-					weeks. The clock was ticking so we decided that (1) was ok, but (2) wasn’t an option.
+					Since I had previously used Google App Engine for app server integration, I briefly considered utilizing it for this application.  
+					There are some advantages to using GAE, namely that hosting, scaling, and database services are built-in.   For specific reasons 
+					(stated below), however, I chose to deploy on Amazon Web Services.   I quickly spun up a medium-sized i Ubuntu instance on AWS.  
+					Depending on your needs and capabilities, this is often the least painful way to go and the tools that Amazon gives you are really 
+					nice, in my opinion.
 				</p>
 				
-				<p>
-					We began Googling ‘Raspberry Pi, iBeacon, etc’ and found that you could conﬁgure the Raspberry Pi as an iBeacon
-					device. We collectively decided that this would be faster, and possibly more interesting to some of the geeks that would
-					be at the party.
-				</p>
+				<h3>Database</h3>
 				
 				<p>
-					After a lot of internal discussion (read: ‘spirited debate’), the plan we all agreed to (tacitly or otherwise) was the following:
+					I’ve used MySQL for other ‘quick-and-dirty’ development projects in the past, so I settled on that.   It’s also relatively simple to install on Ubuntu Linux.   
 				</p>
 				
-				<p>
-					We would be build an iPhone app that utilized the iBeacon services of the IOS CoreLocation stack. The app would
-					ostensibly be a ‘game’ which would have two (2) main use-cases: (1) a ‘treasure hunt’ where users would use the app to 
-					ﬁnd hidden ibeacons at the party; and (2) track their proximity to the bar and increment their ‘bar score’ over time. The 
-					user who had the highest bar score or the fastest time to retrieve all of the beacons would win prizes.
-				</p>
+				<h3>Language</h3>
 				
 				<p>
-					A server process would track each user’s interactions with the ‘claim’ (or treasure-hunt beacons), and their proximity to
-					the bar via network integration with the app. To enhance the experience, we would build visual displays that would 
-					render (in real-time) each player’s beacon claiming progress and their ‘bar score’ updates (which, unsurprisingly, directly 
-					correlated to how drunk they became.)
+					Although I use Java almost every day, Python is my go-to.  Nothing beats the expressiveness of the language, it’s rich ecosystem, or its speed of deployment.  
+					Java is a great language, and the JVM is a battle-tested, mature technology.  However, this is both a blessing and a curse as it stumbles under its own weight at 
+					times.  Simple things should be simple, but they’re not always with this language.  This is particularly true when building when building web applications.   
+				</p>
+				
+				<h3>App Server </h3>
+				
+				<p>
+					Most of what the server had to do was handle service requests from the IOS app and D3.js visualizations.  Given the time constraints, I needed a way to create this “API” quickly.   
+					Given that we had a few streams of development going concurrently, and multiple developers, I felt that we needed more control of the HTTP service tier and OS-level filesystem access.    
+				</p>
+
+				<p>
+					Since this is a ‘micro’-style web application,  I decided on a ‘micro framework’.  If you’re using Python, 
+					then one of the easiest and complete micro frameworks  is <a href="http://bottlepy.org/docs/dev/index.html">Bottle</a>.       
 				</p>
 				
 				<p>
-					At this point, we had about 7 weeks to get it all done.
+					The Bottle website describes it as ‘fast, simple, and lightweight’ and it is.  It supports request-to-function call routing, page templates, and ships 
+					with its own web server.   Here’s an example web application from the Bottle website:
+				</p>				
+
+				<pre><code>
+from bottle import route, run, template
+
+@route(&#39;/hello/&lt;name&gt;&#39;)
+def index(name):
+    return template(&#39;&lt;b&gt;Hello {{name}}&lt;/b&gt;!&#39;, name=name)
+
+run(host=&#39;localhost&#39;, port=8080)			
+				</code></pre>
+
+				<p>
+					That’s it.  Since it’s based on Python, it’s easy to install other components as well.  For our app, we utilized three external Python libraries:    
 				</p>
+				
+				<p><a href="https://pypi.python.org/pypi/MySQL-python/1.2.3">MySQLdb:</a> for mysql access from Bottle web service methods</p>
+				
+				<p><a href="https://pypi.python.org/pypi/simplejson/">SimpleJSON:</a> for serializing data into JSON service responses</p>
+				
+				<p><a href="http://beaker.readthedocs.org/en/latest/">Beaker:</a> for session management</p>
+				
+				<p>
+					Bottle is somewhat limiting in that it’s really designed for a single page deployment.  That is, the server is entirely composed of a single python script which contains all of the 
+					web service implementation code.  It’s great for a small ‘micro’ application a la Google App Engine.  However, it’s not great for large website development, in my opinion.  There are
+					 better frameworks for that, namely Pyramid/Pylons, Django, or Flask.
+				</p>
+				
+				<h3>Schema</h3>
+				
+				<p>
+					Given the compressed implementation timeframe, we decided to go with a very simple de-normalized table structure.  Essentially, the database existed of a list of users, a link to 
+					their current profile image, and a list of counters for their bar score, and each ibeacon they found.  Frankly, not the most extensible design.
+				</p>
+				
+				<p>
+					However, we knew the UUIDs for each beacon, where they were (geographically), and what beacon number in the database it corresponded to, so we fixed that into the service protocol.  
+					This made inserts, updates fast and services themselves easy to write.  Obviously a better approach would be to normalize the relationship between user, location, and device (so we 
+					leave that for an exercise for the reader). 
+				</p>
+				
+				<p>
+					Here is the schema for the table:
+				</p>
+						
+				<pre><code>
+CREATE TABLE USER (
+  USER_ID int(11) NOT NULL AUTO_INCREMENT,
+  NAME varchar(255) NOT NULL DEFAULT '',
+  IMG_REF varchar(255) DEFAULT NULL,
+  BAR_SCORE int(11) NOT NULL DEFAULT '0',
+  BEACON_1 int(11) NOT NULL DEFAULT '0',
+  BEACON_2 int(11) NOT NULL DEFAULT '0',
+  BEACON_3 int(11) NOT NULL DEFAULT '0',
+  BEACON_4 int(11) NOT NULL DEFAULT '0',
+  BEACON_5 int(11) NOT NULL DEFAULT '0',
+  BEACON_6 int(11) NOT NULL DEFAULT '0',
+  BEACON_7 int(11) NOT NULL DEFAULT '0',
+  BEACON_8 int(11) NOT NULL DEFAULT '0',
+  FOUND_EGGS int(11) NOT NULL DEFAULT '0',
+  LAST_BAR_DETECTION timestamp NULL DEFAULT NULL,
+  LAST_BEACON_CLAIM timestamp NULL DEFAULT NULL,
+  DEVICE_ID varchar(255) DEFAULT '',
+  UNIQUE KEY `USER_ID` (`USER_ID`)
+);
+				</code></pre>
+
+				<h3>Protocol</h3>
+				
+				<p>
+					Since JSON is easily constructed and parsed in Cocoa, Javascript, and Python, we elected to go with a simple JSON-based protocol to move data between the clients (IOS App and D3 
+					visualization) and the server.  
+				</p>
+				
+				<p>
+					The protocol itself was implemented as a REST-style HTTP definition which, again, is easily implemented in all of the endpoints.  Here is an example API call to register a user:
+				</p>
+				
+				<pre><code>
+POST http://partyserver/register 
+{
+	“user” : “cmollis”, 
+	“device” : “14B4A219-AD7A-46C2-9773-7880ADD23876”
+}
+
+Response:
+{
+	“responseCd” : 0,  //zero if error 
+	“responseMsg” : “user created”, //or error message
+	“userId” : 23  //id of the new user
+}
+				</code></pre>
+				
+				<p>Here we allow the user (on the IOS App) to choose their own name which is associated with a device ID on the handset.  This device ID is obtained via a call to </p> 
+				
+				<pre><code>
+NSUUID *device = [[UIDevice currentDevice] identifierForVendor];
+				</code></pre>
 			
+				<p>The server ensures that a username is unique per device (note however that if the user deletes their app and re-installs it, they will get a new device ID).</p>
+				
+				<p>Here is the service handler for user registration:</p>
+				
+				<pre><code>
+@route('/register', method='POST')
+def register_user():
+        responseObj = {}
+        responseObj = {}
+        dataObj = {}
+
+        # JSON input
+        device = request.json["device"]
+        name = request.json["name"]
+
+        # regular POST input
+        #device = request.forms.get('device')
+        #name = request.forms.get('name')
+
+        try:
+                con = mdb.connect(serverName, userName, password, database)
+                cur = con.cursor(mdb.cursors.DictCursor)
+
+                checkUser = "select USER_ID from USER where device_id = %s"
+                cur.execute(checkUser, (device) )
+
+                row = cur.fetchone()
+
+                if row:
+                        responseObj["responseCd"] = 1
+                        responseObj["responseMsg"] = "user already exists"
+                        responseObj["userId"] = (row["USER_ID"])
+                else:
+                        #create this user 
+
+                        createUser = "insert into USER(NAME, DEVICE_ID) values (%s, %s)"
+                        cur.execute(createUser, (name, device) )
+
+                        rows = cur.fetchall()
+
+                        responseObj["responseCd"] = 0
+                        responseObj["responseMsg"] = "user created"
+                        responseObj["userId"] = (con.insert_id())
+
+        except mdb.Error, e:
+                con.rollback()
+                responseObj["responseCd"] = -1
+                errMsg = "error occurred %d %s", (e.args[0], e.args[1] )
+                responseObj["responseMsg"] = errMsg
+
+        finally:
+                if con:
+                        con.commit()
+                        con.close()
+
+        response.headers['Content-Type'] = 'application/json'
+        return json.dumps(responseObj)
+				</code></pre>
+				
+				<p>
+					Since the client sets the content type = ‘application/json’, Bottle automatically parses the JSON POST body into Python dictionary and attaches it to the request.
+				</p>
+				
+				<p>
+					The database is queried for the user/device combination and, if not already created, creates the user.  A dictionary object is built with the response elements and 
+					serialized as JSON back to the caller.
+				</p>
+				
+				<h3>Deployment</h3>
+				
+				<p>
+					Although the HTTP server that ships with Bottle is fine for development, it wouldn’t be scaleable enough for a ‘live’ deployment, nor would it be able to serve up images 
+					or any other static file.  Because it wasn’t clear what type of load we would have  (since there was no time to actually test it), I settled on a combination of NGINX and uWSGI. 
+				</p>
+				
+				<h4>uWSGI</h4>
+				
+				<p>
+					uWSGI is an application service ‘container’ written in C for performance, for applications that conform to the WSGI (Web Service Gateway Interface) standard.  Since Bottle itself is a 
+					WSGI server, it can be deployed into any container that supports the standard, like uWSGI.  It has many configuration options, but the following describes how we deployed it:
+				</p>
+				
+				<pre><code>
+uwsgi --http :9080 --wsgi-file /home/cmollis/partyrockin/partyrockin.py --master --processes 20 --threads 4
+				</code></pre>
+				
+				<p>Here we specify that we will pre-fork twenty instances of our partyrockin server on port 9080 with 4 connection threads per process. </p>
+				
+				<h4>NGINX web server</h4>
+				
+				<p>NGINX served two functions within our app: (1) it was deployed as a reverse-proxy to the uWSGI server; and (2) it efficiently served up the static images, HTML, Javascript files. </p>
+				
+				<p>Regarding (1), I like this approach because it’s very simple to add other app machines and processes if the application begins to slow down. </p>
+			
+
 			</div> <!-- /.page-content -->
 			
 
 		</div><!-- /.container -->
 		
 		
-		<!-- CONTENT -->
+		<!-- FOOTER -->
 		
 		<footer class="footer-ol" role="contentinfo">
 			<div class="container">

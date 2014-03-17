@@ -223,6 +223,14 @@ body {
 }
 
 
+/* highlight.js overwrites */
+
+code.hljs {
+	background: none;
+}
+
+
+
 
 
 
