@@ -15,16 +15,23 @@ body {
   border-bottom: 1px solid #FFF;
 }
 
+
 .navbar-ol .navbar-brand {
   color: #4A4A4A;
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 600;
-  padding: 20px 30px 24px 76px;
-  background:transparent url("/img/OL.png") no-repeat 15px 3px;
+  padding: 20px 15px 24px 74px;
+  background-color: transparent;
+  background: url("/img/OL.png");
+  background-image: url("/svg/OL.svg"), none;
+  background-size: 51px 41px;
+  background-repeat:  no-repeat;
   line-height: 0px;
   opacity:0.9;
   filter:alpha(opacity=90);
+  background-position: 15px 0px;
 }
+
 
 .navbar-ol .navbar-brand:hover,
 .navbar-ol .navbar-brand:focus {
@@ -41,8 +48,8 @@ body {
   color: #777;
   font-size: 18px;
   font-weight: 200;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .navbar-ol .navbar-nav > li > a:hover,
@@ -95,7 +102,7 @@ body {
 }
 
 .navbar-ol .social-links {
-	padding: 15px 0 0 30px;
+	padding: 10px 0px 0 15px;
 }
 
 .navbar-ol .social-links a{
