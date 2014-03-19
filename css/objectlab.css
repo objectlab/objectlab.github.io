@@ -131,7 +131,28 @@ body {
 }
 
 .banner-ibeacons {
-	background: #F4F4F4 url("/img/ibeacons-banner.png") no-repeat center 20px;
+	background: #F4F4F4 url("/img/raspberry.png") no-repeat 20px 50px;
+	padding-top: 30px !important;
+}
+
+.banner-ibeacons .code-block {
+	display: block;
+	margin-left: 500px;
+	height: 360px;
+	margin-top: 0;
+	margin-right: 30px;
+	margin-bottom: 30px;
+	background-color: transparent;
+	overflow: hidden;
+	border: 1px solid #999;
+	border-radius: 4px;
+}
+
+.banner-ibeacons .code-block pre {
+	border: none;
+	padding: 0px;
+	margin: 20px;
+	max-height: 320px;
 }
 
 .banner-iosapp {
