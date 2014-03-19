@@ -107,39 +107,41 @@
 				</div>
 				
 				<p >
-					We needed an effective way to make people who were at the party but not yet playing the game aware of what we had concocted and hopefully entice them to participate.
+					We needed an effective way to make people who were at the party, but not yet playing the game, aware of what we had concocted and hopefully entice them to participate.
 				</p>
 				
 				<p>
-					For those who were already playing the game we wanted to visualize how they were doing and allow them to share their progress with others. In addition to the information provided through the 
-					iOS App UI we needed to display on highly visible screens how many beacons they had claimed and what kind of impressive barscore they had managed to amass. 
+					For those who were already playing the game, we wanted to visualize how they were doing and allow them to share their progress with others. 
+					In addition to the information provided through the iOS App UI we needed to display on highly visible screens how many beacons they had claimed and what kind of 
+					impressive barscore they had managed to amass. 
 				</p>
-
+				
 				<p>
-					Most importantly though we wanted some kind of fun way to visualize micro-location detection and share the selfies people took with the iOS app with the rest of the party crowd… 
+					Most importantly though we wanted some kind of fun way to visualize micro-location detection and share the selfies people took with the iOS App with the rest of the party crowd… 
 				</p>
 				
 				<h3>D3.js</h3>
 				
 				<p>
-					When it came to HTML based visualization the choice was easy. We were actively utilizing  D3.js for client projects and felt comfortable enough that we would be able to hack 
-					up something interesting. 
+					When it came to HTML based visualization the choice was easy. We had successfully utilized D3.js for client projects and felt comfortable enough that we would be able to 
+					hack up something interesting for this.
 				</p>
 				
 				<p>
-					If you have not heard about D3.js, it is a JavaScript library for manipulating documents based on data using HTML, SVG and CSS. For more information check out <a href="http://www.d3js.org">D3.js</a>
+					If you have not heard about D3.js, it is a JavaScript library for manipulating documents based on data using HTML, SVG and CSS. For more information check out  <a href="http://www.d3js.org">D3.js</a>
 				</p>
 				
 				<h3>‘People At The Bar’ Visualization</h3>
 				
 				<p>
-					What better place to visualize micro-locations then showing who is currently at the bar, displaying their mugshot and screen name and attempt to engage them with game related personalized messages.  
-					The iOS app detected if a person was close to iBeacons placed strategically at the bar. The server app provided a web-service giving us all players who were currently at the bar.  
-					All we needed was a way to simulate people hanging out at the bar, bumping into each other and trying to push through the crowd to order a drink. 
+					What better place to visualize micro-locations then showing who is currently at the bar, displaying their mugshot and screen name and attempt to engage them with game related 
+					personalized messages.  The iOS App already detects if a person is close to iBeacons placed strategically at the bar. The Server App provides a web-service giving us all the 
+					players who were currently at the bar.  All we needed was an interesting way to simulate people hanging out a bar, bumping into each other, trying to push through the crowd 
+					to order a drink. 
 				</p>
 				
 				<p>
-					A quick doodle session made things pretty clear...
+					A quick doodle clarified things a bit....
 				</p>
 				
 				<p>
@@ -147,24 +149,26 @@
 				</p>
 
 				<p>
-					The people in the sketch all look a bit pissed off, hopefully the real crowd would be happy, but we shall see. New arrivals would come bouncing onto the screen causing movement of others at the bar… 
-					just like in the real world.
+					The people in the sketch all look a bit pissed off, hopefully the real crowd would be happier, but we shall see. New arrivals would come bouncing onto the screen causing 
+					movement of others already at the bar… just like in the real world.
 				</p>
 				
 				<p>
-					D3.js gives us d3.layout.force which allowed us to perfectly simulate the forces at play in a crowded bar.  If you are interested in how it was all implemented you can 
-					take a look at the src code here: 
+					<a href="https://github.com/mbostock/d3/wiki/Force-Layout#force">d3.layout.force</a> provides all of the features that are needed to perfectly simulate the forces at play in a 
+					crowded bar. A little bit of JavaScript, CSS and SVG hacking and bubbles of people were bouncing around the screen.  If you are interested in how it was all implemented you can 
+					take a look at the src code here:
 					<a href="https://github.com/objectlab/Visualization">https://github.com/objectlab/Visualization</a>
 				</p>
 				
 				<h3>‘Leaderboard’ Visualization</h3>
 				
 				<p>
-					The second visualization needed to show the current leaders of both game play objectives. 
+					The second visualization needed to show the current leaders in both game play objectives. 
 				</p>
 				
 				<p>
-					First, a leaderboard for the highest barscore. We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical equation of:
+					First, a leaderboard for the highest barscore. We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical 
+					equation of:
 				</p>
 				
 				<p>
@@ -172,12 +176,12 @@
 				</p>
 				
 				<p>
-					The second game objective was to collect all of the beacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each beacon we 
-					borrowed some of the fantastic TRON symbols.
+					The second game objective would be to collect all of the iBeacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each iBeacons we borrowed 
+					some of the fantastically nerdy TRON symbols.
 				</p>
 				
 				<p>
-					Again we wanted to incorporate the players’ pictures and their screen names and add some animation into the mix.
+					Again we wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
 				</p>
 				
 				<p>
@@ -188,13 +192,13 @@
 				</p>
 				
 				<p>
-					The barscore leaderboard is basically a bar chart with screen name labels on the left and barscores displayed on the right. To tie this to the ‘At The Bar’ visualization we again 
-					used bubbles for each player to display their photo. We would show the top players, leaders on the top, new leaders would animate onto the screen from above pushing others off the 
-					screen, position changes would animate respectively.
+					The barscore leaderboard is basically a bar chart with screen name labels on the left and barscores displayed on the right. To tie this to the ‘At The Bar’ Visualization
+					 we used bubbles for each player to display their photo. We would show the top players on the top, new leaders would animate onto the screen from above pushing others off 
+					 the screen, position changes would animate respectively.
 				</p>
 				
 				<p>
-					The beacons leaderboard would simply show the top leaders and highlight the beacons (shown as TRON symbols) as users collected them.
+					The beacons leaderboard would simply show the top leaders and highlight the iBeacons (shown as TRON symbols) as users collected them.
 				</p>
 				
 				<p>
@@ -202,7 +206,7 @@
 				</p>
 				
 				<p>
-					Again, if you are interested in how this was implemented you can take a look at the src code here: <br/>
+					For a more detailed description and the src code please read:
 					<a href="https://github.com/objectlab/Visualization"> https://github.com/objectlab/Visualization </a>
 				</p>
 			
