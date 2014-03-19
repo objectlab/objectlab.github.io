@@ -164,7 +164,7 @@ body {
 }
 
 .banner-visualization {
-	background: #222222 url("/img/visualization-banner.png") no-repeat left 10px;
+	background: #222222 url("/img/visualization-banner.png") no-repeat left top;
 }
 
 
