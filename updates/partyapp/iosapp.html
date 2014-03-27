@@ -308,6 +308,323 @@ pending.";
 	
 </code></pre>
 			
+			
+				<p>
+					Bluetooth status changes are posted to listeners deﬁned in other parts of the app that disabled or initialized features
+					based on bluetooth state.
+				</p>
+			
+				<h2>2.Game Play</h2>
+				
+				<p>
+					In order to explain the game play, we need to refresh our memory of what iBeacons are what IOS does with them that
+					make this interesting.
+				</p>
+				
+				<h3>
+					What’s an ‘iBeacon’?
+				</h3>
+				
+				<p>
+					An iBeacon is any Bluetooth LE device that emits information that conforms to a speciﬁc standard. Bluetooth Low
+					Energy (LE) (the technology iBeacons are based on) is a connectionless, low power, always (radio) OFF mode that is 
+					capable of transmitting small, discrete data chunks with little power consumption (think: temperature, steps taken, etc).
+				</p>
+				
+				<p>
+					iBeacons are conﬁgured to broadcast a small packet of information over the Bluetooth LE channels that are picked up by
+					scanning LE devices (like iPhones).
+				</p>
+				
+				<p>
+					Generally, the device-speciﬁc information is the following:
+				</p>
+				
+				<ul>
+					<li>
+						Proximity UUID : 16 byte UUID identiﬁer (user-assigned)
+					</li>
+					<li>
+						Major Number: 2 byte integer (user-assigned)
+					</li>
+					<li>
+						Minor: 2 byte integer (user-assigned)
+					</li>
+					
+				</ul>
+				
+				<p>
+					RSSI : (Received Signal Strength) power setting that will be used to extrapolate a distance setting based on the received
+					BT packet. <span style="color:red">(NEED TO EXPLAIN THE Transmitter power calibration here should be in craig’s write up?)</span>
+				</p>
+				
+				<p>
+					The UUID/Major/Minor combination allows some ﬂexibility in deployment allowing you to have detect combinations of
+					each. For example, you can conﬁgure all of your devices with separate UUIDs with same major/minor, or the same UUID					
+					with different major/minor, or any combination of the three. In order to deﬁne the bluetooth LE packet as an iBeacon 					
+					packet, Apple deﬁnes a few bytes of information that must be included in the packet itself so it can be differentiated by 					
+					the IOS BT driver, and passed up the Cocoa stack to CoreLocation.
+				</p>
+				
+				<h3>
+					CoreLocation
+				</h3>
+				
+				<p>
+					An application can register for proximity updates through the <b>CLLocationManager</b> class (a similar technique utilized for
+					GPS region monitoring). When service wants to receive location notiﬁcations, it implements the 
+					<b>CLLocationManagerDelegate</b> protocol.
+				</p>
+				
+				<p>
+					Proximity detection is deﬁned by a UUID (the same UUID that is used to conﬁgure the iBeacon device). Here is an
+					example of how this is managed:
+				</p>
+				
+<pre><code>
+ _locationManager = [[CLLocationManager alloc] init];
+ _locationManager.delegate = self;
+
+NSUUID *uuid = [[NSUUID alloc] 
+initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
+ _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid 
+identifier:[uuid UUIDString]];
+
+[_locationManager startRangingBeaconsInRegion:_beaconRegion];
+[_locationManager startRangingBeaconsInRegion:[[BarTender sharedInstance] barRegion] 
+
+];
+</code></pre>
+
+				<p>
+					For the app, we had two proximity identiﬁers (UUIDs): (1) for two the beacons hidden at the bar; (2) for six the beacons 
+					hidden around the bar. Each set utilized its own UUID, but differed by major/minor number.
+				</p>
+				
+				<h3>
+					Proxmity Detection
+				</h3>
+				
+				<p>
+					Assuming bluetooth is working, you’ve registered your UUIDs for the beacons you’re interested in, (, you’re ready to start
+					receiving proximity notiﬁcations. The class that implements the CLLocationManagerDelegate protocol will implement the 
+					following method to receive callbacks every second:
+				</p>
+
+<pre><code>
+#pragma mark - CLLocationManagerDelegate 
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)bea-
+cons inRegion:(CLBeaconRegion *)region
+{ 
+ 
+ //CM should be two beacons if the region is the bar region
+ if ([[region.proximityUUID UUIDString] isEqualToString:[[[BarTender sharedIn-
+stance] defaultProximityUUID] UUIDString]]) {
+ [[BarTender sharedInstance] checkForBarProximity:beacons]; 
+ //return out of this if it's the bar UUID
+ return;
+ }
+
+ else {
+
+ // claimable beacons
+ _rangedBeacons.array = beacons;
+ [self.tableView reloadData];
+
+ }
+
+}
+</code></pre>
+				<p>
+					It’s important to note that these callbacks will occur <b>regardless</b> of whether you are near any deﬁned beacons. If there
+					are no beacons, the beacons array is nil. The above code is taken directly from our app and, while the app is in the 
+					foreground, will check for proximity detection for both the bar and any other beacons that are near.					
+				</p>
+				
+				<h3>
+					Distance : Near, Far, Immediate
+				</h3>
+				
+				<p>
+					As noted, IOS interpolates distance as a function of the RSSI setting passed in the packet (which was supposed to be
+					set during calibration). In the CLLocationManager callback IOS will return it’s interpolated distance with each beacon 
+					object in the array of detected beacons. Each beacon in the callback is of type CLBeacon.
+				</p>
+				<p>
+					The CLBeacon instance contains the UUID, major, minor, and accuracy values. Accuracy is the interpolated distance
+					value in meters.
+				</p>
+				
+				<p>
+					Here we check to see if the user is within an acceptable distance (6.5m) to any of the bar beacons and update their 
+					barscore if necessary.
+				</p>
+<pre><code>
+for (id myArrayElement in barBeacons) {
+ CLBeacon *beacon = (CLBeacon*)myArrayElement;
+
+ if ((beacon.accuracy < BAR_BEACON_THRESHOLD) && ! (beacon.accuracy > 0.0f) ) 
+ {
+ _needsBarScoreUpdate = YES;
+ }
+ else
+ _needsBarScoreUpdate = NO;
+ }
+</code></pre>
+				
+				<p>
+					It should be noted that the distance calculated is a factor of many things (not the least of which is interference in the
+					venue) and shouldn’t be relied upon for speciﬁc accuracy (more on this later). This will ﬂuctuate possibly during any 
+					particular execution and can cause issues later. The scalar distance utilized was the average that I chose after testing the 
+					power calibration/RSSI distance interpolation in multiple locations.
+				</p>
+				
+				<p>
+					IOS does provide some convenience methods to deal with these inaccuracy issues. You can query the found beacon
+					array for any that IOS determines to be ‘near’, ‘far’, or ‘immediate’. This may ﬂuctuate, and Apple doesn’t provide any 
+					documentation on how it determines these values but they would be useful if generalized distance is more important than 
+					speciﬁc distance (in the case of in-store advertisements, for example).
+				</p>
+				
+				<p>
+					Here is an example (substitute <b>CLProximityFar</b> with <b>CLProximityNear</b>, and <b>CLProximityImmediate</b>):
+				</p>
+				
+<pre><code>
+NSArray *farBeacons = [barBeacons filteredArrayUsingPredicate:[NSPredicate !
+predicateWithFormat:@"proximity = %d", CLProximityFar]];
+</code></pre>
+
+				<h3>
+					Finding the Hidden Beacons
+				</h3>
+				
+				<p>
+					Finding the hidden beacons utilized the same techniques as deﬁned above. The only wrinkle we provided was a visual
+					clue of general proximity to the beacon. With each CoreLocation callback, the table of available beacons was reloaded
+					and thus redrawn. Since the distance values changed as the player moved, we modiﬁed the position of an image inside 
+					of TableViewCell relative to the distance calculated by IOS and the number of pixels in a table cell client area. In order to 
+					track state visually between executions of the app, we stored entries for each hidden in a local CoreData storage.
+				</p>
+				
+				<p>
+					If the user was close enough, the app allowed them to claim the beacon. This was updated locally in CoreData and on
+					the server.
+				</p>
+				
+				<img src="" >
+
+				<p>
+					The above images illustrate the UI when proximity to a beacon is identiﬁed (‘Claim’). It also illustrates how the table view
+					will display the local state (claimed, claimable, unclaimed) of claim beacons. Note the ‘blue dots’ which indicate distance 
+					from the beacon.
+				</p>
+				
+				<h3>Bar Score Updating</h3>
+				
+				<p>
+					Bar score updates followed exactly the same process as hidden beacon claiming, while the app was in the foreground,
+					that is. The one twist with bar score updating is that we didn’t want the app updating their bar score every second. This 
+					would have been too much network trafﬁc. A timer was set to update every 5 seconds. If the user was in the proper 
+					vicinity of the bar beacons when the timer ﬁred, their score would get updated on the server. If not, it wasn’t.
+				</p>
+				
+				<p>
+					We also wanted the bar scoring to be a more passive thing, as opposed to actively hunting for hidden beacons. This 
+					required us to think about how to process updates in the background.
+				</p>
+				
+				<h3>
+					Foreground and Background Processing
+				</h3>
+				
+				<p>
+					When the app is in the foreground, everything works pretty much as described. However, processing CoreLocation
+					updates in the background (particularly iBeacon updates at the time), was a little different. From what we learned, most 
+					of the decisions IOS makes with respect to background processing seem to do with device power management.
+				</p>
+				
+				<p>
+					First, if you are actively ranging beacons in the foreground and ‘background’ your app, ranging immediately stops. It will,
+					however, restart automatically if you switch to the foreground. However, we assumed that there would be a class of					
+					users that wouldn’t be playing the game actively the entire time. Most would probably want to periodically check their					
+					score, put the app to sleep, put the phone in their pocket, etc. However, we wanted bar scoring to happen in these					
+					passive scenarios. Not only was a cool feature, but bar score detection also drove visualizations depicting who was at 					
+					the bar.
+				</p>
+
+				<p>
+					<b>CoreLocation</b> will allow to monitor regions which could be <b>CLBeaconRegion</b> or <b>CLCircularRegion</b> (GPS) instances.
+					CLBeaconRegion instances may also be identiﬁed by the proximity UUID. It’s possible to ask CoreLocation to ‘monitor’					
+					a particular region and notify you when you are either inside or outside of a region. Unfortunately, you can’t really control 					
+					the radius on CLBeaconRegions, but according to the documentation, it’s roughly equivalent to the standard bluetooth 					
+					range of 70m, but may ﬂuctuate.
+				</p>
+				
+				
+				<p>
+					When initializing CLLocationManager you can specify the following with respect to region monitoring and background 
+					processing:
+				</p>
+				
+<pre><code>
+ _barRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityId 
+identifier:regionID];
+
+ _barRegion.notifyOnEntry = YES;
+
+ _barRegion.notifyOnExit = YES;
+
+ _barRegion.notifyEntryStateOnDisplay = YES;
+
+ [_locationManager startMonitoringForRegion:_barRegion];
+</code></pre>
+
+				<p>
+					This basically tells CLLocationManager to notify me of region proximity on entry of a region, exit of region, and when the
+					iphone display turns on (even if the app is in the background).
+				</p>
+				
+				<p>
+					You can specify in your application object that you want to receive background location updates. We found that these 
+					happen regardless of whether you set this value. We also found that it may take a long time to receive this update (<= 
+					15minutes) if the app is in the background. There is a nice article that conﬁrms this here (<a href="http://
+					developer.radiusnetworks.com/2013/11/13/ibeacon-monitoring-in-the-background-and-foreground.html">http://
+					developer.radiusnetworks.com/2013/11/13/ibeacon-monitoring-in-the-background-and-foreground.html</a>)
+				</p>
+				
+				<p>
+					We found that when you are in the background, and receive a location update (either from IOS background manager or
+					when the display turns on), you have about 10 seconds to range any beacons you’re interested in. Here we detect bar 
+					beacon proximity as the result of a CLLocationManager update:
+				</p>
+
+<pre><code>
+- (void)locationManager:(CLLocationManager *)manager 
+didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+{
+
+ if ([region isKindOfClass:[CLBeaconRegion class]] ) {
+
+ if(state == CLRegionStateInside)
+ {
+
+ if ([UIApplication sharedApplication].applicationState == UIApplicationState-
+Background)
+ {
+
+ //range beacons for 10 seconds.. 
+ [manager startRangingBeaconsInRegion:(CLBeaconRegion*)region];
+
+ }
+</code></pre>
+
+				<p>
+					If the app determines that you need a bar score update and you’re in the background, it will execute a network call and
+					update your display with a localNotiﬁcation. The following illustrates bar score updating in the background and local
+					notiﬁcations.
+				</p>
+		
 			</div> <!-- /.page-content -->
 			
 
