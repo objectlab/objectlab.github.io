@@ -102,13 +102,211 @@
 			<div class="container page-content">
 
 				<div class="page-header">
-					<h1>iOS App</h1>
+					<h1>The iOS App</h1>
 				</div>
 				
 				<p >
-					Bla, Bla, Bla.
+					At the point we started to develop the app, we had purchased and conﬁgured our Raspberry Pi’s and had tested them
+					with some iBeacon test applications that were available on the iTunes store. Ernst had also put together a series of					
+					screen mockups illustrating the main use-cases so we knew generally what we were going to build (although it went 					
+					back and forth quite a bit.)
+				</p>
+				
+				<p>We still had many unknowns and very little time to really prove them out:</p>
+				
+				<ul>
+					<li>
+						we didn’t really know how accurate the translation from signal strength (RSSI) to physical distance would be and how different environments might affect it
+						</li>
+					<li>
+						we didn’t completely understand how the APIs worked. There was some code available on github, etc, but none provided a full explanation
+					</li>
+					<li>
+						we weren’t sure how the server nor the handsets would perform under network service load
+					</li>
+				</ul>
+				
+				<p>
+					From the app perspective, we had to eliminate as much technical risk as possible early enough so that we could make a
+					decision about the rest of the engineering.
+				</p>
+				
+				<h2>
+					AirLocate : A good start
+				</h2>
+				
+				<p>
+					As we all know, the best way to learn a new piece of code is to actually see the API’s in action and then take what you
+					need for your application. At the time, there were some projects on Github (e.g. <a href="https://github.com/nicktoumpelis/					
+					HiBeacons">https://github.com/nicktoumpelis/HiBeacons</a>) that had some of the functionality we needed, but not all of it. We found out about some sample code that					
+					Apple had distributed to developers at the 2013 ADC that implemented about 80% of the features we needed. It’s called 					
+					<b>AirLocate</b>(source code here: <a href="https://developer.apple.com/library/ios/samplecode/AirLocate/Introduction/Intro.html#//					
+					apple_ref/doc/uid/DTS40013430-Intro-DontLinkElementID_2" >https://developer.apple.com/library/ios/samplecode/AirLocate/Introduction/Intro.html#//					
+					apple_ref/doc/uid/DTS40013430-Intro-DontLinkElementID_2</a>)
+				</p>
+				
+				<p>
+					AirLocate allowed us to test different combinations of UUID/Major/Minor values and see proximity detections working
+					within Xcode. At this point, we were ready to start building the IOS App.
+				</p>
+				
+				<h2>
+					Design
+				</h2>
+				
+				<p>
+					Ernst has a great way of simplifying most complex things (and is the perfect foil for the rest of us, who preternaturally
+					tend to overcomplicate them). He favored a distilled approach to the application with most UI features contained within a 
+					single View with certain features hidden based on the physical location of the user.
+				</p>
+				
+				<p>
+					Here is an early representation of the UI. We obviously added features but ultimately kept the same spirt of the simple,
+					utilitarian design.
+				</p>
+				
+				<img src="" >
+				
+				<h2>
+					Implementation
+				</h2>
+				
+				<p>
+					The following details the main use-cases illustrated with the ﬁnal user interface design. An emphasis is made on
+					providing technical details regarding iBeacon API usage within the app implementation. There are many other
+					components not discussed in detail but can found by browsing the source code.
+				</p>
+				
+				<h3>
+					Sign Up
+				</h3>
+				
+				<img src="" >
+				
+				<p>
+					The above shows the splash screen, the registration page, and the initial view. Unless the user was at the physical
+					location or could detect our speciﬁc iBeacons, there wasn’t much they could do. They could take a picture and upload it
+					our server, or they could change their user name. This added a bit to the mystery of what we were planning.
+				</p>
+				
+				<h4>
+					Sanity Checks
+				</h4>
+				
+				<h5>
+					Network
+				</h5>
+				
+				<p>
+					Since the app made a lot of service calls, we had to implement the standard network ‘reachability’ checks as required by
+					Apple for submission. Since we were using <b>AFNetworking</b> (https://github.com/AFNetworking/AFNetworking) we
+					utilized its reachability services;
 				</p>
 
+<pre><code>
+AFNetworkReachabilityManager *reachability = [HttpClient 
+sharedClient].reachabilityManager;
+ [reachability setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus 
+status) {
+ NSLog(@"reachability changed..... %li", status);
+ switch (status) {
+ case AFNetworkReachabilityStatusNotReachable:
+ NSLog(@"..network not reachable....");
+ [_networkUnreachableAlertView show];
+ break;
+ 
+ default:
+ break;
+ }
+ }];		
+</code></pre>
+
+			<p>
+				If the network was unreachable, we disallowed both user registration and image uploading.
+			</p>
+			
+			<h5>
+				Bluetooth
+			</h5>
+			
+			<p>
+				With newer versions of IOS, the bluetooth stack is on by default (presumably to mitigate the following issue). However,
+				none of the iBeacon detection would work if the IOS bluetooth manager wasn’t running so we had to check for this also.
+			</p>
+			
+			<p>
+				On application boot, a singleton class is initialized that implements the CBCentralManager delegate interface. The
+				singleton creates an instance of CBCentralManager and passes itself as the delegate reference. Now the application can 
+				receive notiﬁcations on Bluetooth state (on/off) which could happen at any time during the execution. The following 
+				illustrates how Bluetooth state is tracked by the application:
+			</p>
+
+<pre><code>
+#pragma mark - CBCentralManagerDelegate
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
+ NSString *stateString = nil;
+
+ switch (central.state) {
+ 
+ case CBCentralManagerStatePoweredOff:
+ NSLog(@"CoreBluetooth BLE hardware is powered off");
+ stateString = @"Bluetooth is powered off. If you want to play, go to set-
+tings and turn it on.";
+ _btReady = NO;
+ [self stopMonitoring];
+ break;
+
+ case CBCentralManagerStatePoweredOn:
+ NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+ stateString = @"Bluetooth hardware is powered on and ready";
+ _btReady = YES;
+ //start the bar beacon region monitoring
+ [ self startMonitoring];
+ break;
+
+ case CBCentralManagerStateResetting:
+ NSLog(@"CoreBluetooth BLE hardware is resetting");
+ _btReady = NO;
+ break;
+
+ case CBCentralManagerStateUnauthorized:
+ NSLog(@"CoreBluetooth BLE state is unauthorized");
+ stateString = @"The app is not authorized to use Bluetooth Low Energy";
+ _btReady = NO;
+ break;
+
+ case CBCentralManagerStateUnknown:
+ NSLog(@"CoreBluetooth BLE state is unknown");
+ stateString = @"The bluetooth LE state unknown, disabling for now.. update 
+pending.";
+ _btReady = NO;
+ break;
+
+ case CBCentralManagerStateUnsupported:
+ NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+ stateString = @"Bluetooth Low Energy is unsupported on this platform";
+ _btReady = NO;
+ break;
+
+ default:
+ break;
+
+ }
+ 
+ if (stateString) {
+ NSNumber *btState = [NSNumber numberWithBool:_btReady];	
+ NSDictionary *btStateDict = [NSDictionary dictionaryWithObjectsAndKeys:stateString, 
+ @"btStateString", btState, @"btState", nil];
+
+ [[NSNotificationCenter defaultCenter] postNotificationName:@"Bluetooth Status"
+ object:nil
+ userInfo:btStateDict];
+
+ }
+
+}
+	
+</code></pre>
 			
 			</div> <!-- /.page-content -->
 			
