@@ -4,6 +4,10 @@ body {
   padding-top: 90px;
 }
 
+p {
+	margin: 0 0 10px 20px;
+}
+
 
 /* Navigation bar customization */
 
