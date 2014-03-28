@@ -427,8 +427,8 @@ NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5
 				
 				<p>
 					As noted, IOS interpolates distance as a function of the RSSI setting passed in the packet (which was supposed to be
-					set during calibration). In the CLLocationManager callback IOS will return it’s interpolated distance with each beacon 
-					object in the array of detected beacons. Each beacon in the callback is of type CLBeacon.
+					set during calibration). In the <b>CLLocationManager</b> callback IOS will return it’s interpolated distance with each beacon 
+					object in the array of detected beacons. Each beacon in the callback is of type <b>CLBeacon</b>.
 				</p>
 				<p>
 					The CLBeacon instance contains the UUID, major, minor, and accuracy values. Accuracy is the interpolated distance
