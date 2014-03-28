@@ -207,21 +207,20 @@
 				</p>
 
 				<pre><code>
-AFNetworkReachabilityManager *reachability = [HttpClient 
-sharedClient].reachabilityManager;
- [reachability setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus 
-status) {
- NSLog(@"reachability changed..... %li", status);
- switch (status) {
- case AFNetworkReachabilityStatusNotReachable:
- NSLog(@"..network not reachable....");
- [_networkUnreachableAlertView show];
- break;
- 
- default:
- break;
- }
- }];
+AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabilityManager;
+    [reachability setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"reachability changed..... %li", status);
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"..network not reachable....");
+                [_networkUnreachableAlertView show];
+                break;
+                
+        
+            default:
+                break;
+        }
+    }];
 			</code></pre>
 
 			<p>
@@ -245,72 +244,63 @@ status) {
 				illustrates how Bluetooth state is tracked by the application:
 			</p>
 
-<pre><code>
+			<pre><code>
 #pragma mark - CBCentralManagerDelegate
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
- NSString *stateString = nil;
+    NSString *stateString = nil;
+    
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@"CoreBluetooth BLE hardware is powered off");
+            stateString = @"Bluetooth is powered off.  If you want to play, go to settings and turn it on.";
+            _btReady = NO;
+            [self stopMonitoring];
+            break;
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+            stateString = @"Bluetooth hardware is powered on and ready";
+            _btReady = YES;
+               //start the bar beacon region monitoring
+                [ self startMonitoring];
 
- switch (central.state) {
- 
- case CBCentralManagerStatePoweredOff:
- NSLog(@"CoreBluetooth BLE hardware is powered off");
- stateString = @"Bluetooth is powered off. If you want to play, go to set-
-tings and turn it on.";
- _btReady = NO;
- [self stopMonitoring];
- break;
-
- case CBCentralManagerStatePoweredOn:
- NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
- stateString = @"Bluetooth hardware is powered on and ready";
- _btReady = YES;
- //start the bar beacon region monitoring
- [ self startMonitoring];
- break;
-
- case CBCentralManagerStateResetting:
- NSLog(@"CoreBluetooth BLE hardware is resetting");
- _btReady = NO;
- break;
-
- case CBCentralManagerStateUnauthorized:
- NSLog(@"CoreBluetooth BLE state is unauthorized");
- stateString = @"The app is not authorized to use Bluetooth Low Energy";
- _btReady = NO;
- break;
-
- case CBCentralManagerStateUnknown:
- NSLog(@"CoreBluetooth BLE state is unknown");
- stateString = @"The bluetooth LE state unknown, disabling for now.. update 
-pending.";
- _btReady = NO;
- break;
-
- case CBCentralManagerStateUnsupported:
- NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
- stateString = @"Bluetooth Low Energy is unsupported on this platform";
- _btReady = NO;
- break;
-
- default:
- break;
-
- }
- 
- if (stateString) {
- NSNumber *btState = [NSNumber numberWithBool:_btReady];	
- NSDictionary *btStateDict = [NSDictionary dictionaryWithObjectsAndKeys:stateString, 
- @"btStateString", btState, @"btState", nil];
-
- [[NSNotificationCenter defaultCenter] postNotificationName:@"Bluetooth Status"
- object:nil
- userInfo:btStateDict];
-
- }
-
+            break;
+        case CBCentralManagerStateResetting:
+            NSLog(@"CoreBluetooth BLE hardware is resetting");
+            _btReady = NO;
+            break;
+        case CBCentralManagerStateUnauthorized:
+            NSLog(@"CoreBluetooth BLE state is unauthorized");
+            stateString = @"The app is not authorized to use Bluetooth Low Energy";
+            _btReady = NO;
+            break;
+        case CBCentralManagerStateUnknown:
+            NSLog(@"CoreBluetooth BLE state is unknown");
+            stateString = @"The bluetooth LE state unknown, disabling for now.. update pending.";
+            _btReady = NO;
+            break;
+        case CBCentralManagerStateUnsupported:
+            NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+            stateString = @"Bluetooth Low Energy is unsupported on this platform";
+            _btReady = NO;
+            break;
+        default:
+            break;
+    }
+    
+    if  (stateString) {
+        
+        NSNumber *btState = [NSNumber numberWithBool:_btReady];
+        
+ NSDictionary *btStateDict = [NSDictionary dictionaryWithObjectsAndKeys:stateString, @"btStateString", btState, @"btState", nil];
+        
+[[NSNotificationCenter defaultCenter] postNotificationName:@"Bluetooth Status"
+                                                            object:nil
+                                                          userInfo:btStateDict];
+        
+    }
+    
 }
-	
-</code></pre>
+	</code></pre>
 			
 			
 				<p>
@@ -385,20 +375,16 @@ pending.";
 					example of how this is managed:
 				</p>
 				
-<pre><code>
+				<pre><code>
  _locationManager = [[CLLocationManager alloc] init];
  _locationManager.delegate = self;
 
-NSUUID *uuid = [[NSUUID alloc] 
-initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
- _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid 
-identifier:[uuid UUIDString]];
+NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5A71096E0"];
+    _beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:uuid identifier:[uuid UUIDString]];
 
 [_locationManager startRangingBeaconsInRegion:_beaconRegion];
-[_locationManager startRangingBeaconsInRegion:[[BarTender sharedInstance] barRegion] 
-
-];
-</code></pre>
+[_locationManager startRangingBeaconsInRegion:[[BarTender sharedInstance] barRegion] ];				
+				</code></pre>
 
 				<p>
 					For the app, we had two proximity identiﬁers (UUIDs): (1) for two the beacons hidden at the bar; (2) for six the beacons 
@@ -415,30 +401,26 @@ identifier:[uuid UUIDString]];
 					following method to receive callbacks every second:
 				</p>
 
-<pre><code>
+				<pre><code>
 #pragma mark - CLLocationManagerDelegate 
-- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)bea-
-cons inRegion:(CLBeaconRegion *)region
-{ 
- 
- //CM should be two beacons if the region is the bar region
- if ([[region.proximityUUID UUIDString] isEqualToString:[[[BarTender sharedIn-
-stance] defaultProximityUUID] UUIDString]]) {
- [[BarTender sharedInstance] checkForBarProximity:beacons]; 
- //return out of this if it's the bar UUID
- return;
- }
-
- else {
-
- // claimable beacons
- _rangedBeacons.array = beacons;
- [self.tableView reloadData];
-
- }
-
-}
-</code></pre>
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
+{    
+    //CM should be two beacons if the region is the bar region
+    if ([[region.proximityUUID UUIDString] isEqualToString:[[[BarTender sharedInstance] defaultProximityUUID] UUIDString]]) {
+   
+        [[BarTender sharedInstance] checkForBarProximity:beacons];     
+        //return out of this if it's the bar UUID
+        return;
+    }
+    else {
+        // claimable beacons
+        _rangedBeacons.array = beacons;
+        [self.tableView reloadData];
+    }
+    
+}				
+				</code></pre
+				
 				<p>
 					It’s important to note that these callbacks will occur <b>regardless</b> of whether you are near any deﬁned beacons. If there
 					are no beacons, the beacons array is nil. The above code is taken directly from our app and, while the app is in the 
@@ -463,18 +445,18 @@ stance] defaultProximityUUID] UUIDString]]) {
 					Here we check to see if the user is within an acceptable distance (6.5m) to any of the bar beacons and update their 
 					barscore if necessary.
 				</p>
-<pre><code>
-for (id myArrayElement in barBeacons) {
- CLBeacon *beacon = (CLBeacon*)myArrayElement;
-
- if ((beacon.accuracy < BAR_BEACON_THRESHOLD) && ! (beacon.accuracy > 0.0f) ) 
- {
- _needsBarScoreUpdate = YES;
- }
- else
- _needsBarScoreUpdate = NO;
- }
-</code></pre>
+				
+				<pre><code>
+    for (id myArrayElement in barBeacons) {
+        CLBeacon *beacon = (CLBeacon*)myArrayElement;
+                
+        if ((beacon.accuracy < BAR_BEACON_THRESHOLD) && 	(beacon.accuracy > 0.0f) ) {
+            _needsBarScoreUpdate = YES;
+        }
+        else
+            _needsBarScoreUpdate = NO;
+    }
+				</code></pre>
 				
 				<p>
 					It should be noted that the distance calculated is a factor of many things (not the least of which is interference in the
@@ -494,10 +476,9 @@ for (id myArrayElement in barBeacons) {
 					Here is an example (substitute <b>CLProximityFar</b> with <b>CLProximityNear</b>, and <b>CLProximityImmediate</b>):
 				</p>
 				
-<pre><code>
-NSArray *farBeacons = [barBeacons filteredArrayUsingPredicate:[NSPredicate !
-predicateWithFormat:@"proximity = %d", CLProximityFar]];
-</code></pre>
+				<pre><code>
+NSArray *farBeacons = [barBeacons filteredArrayUsingPredicate:[NSPredicate 	predicateWithFormat:@"proximity = %d", CLProximityFar]];				
+				</code></pre>
 
 				<h3>
 					Finding the Hidden Beacons
@@ -571,18 +552,15 @@ predicateWithFormat:@"proximity = %d", CLProximityFar]];
 					processing:
 				</p>
 				
-<pre><code>
- _barRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityId 
-identifier:regionID];
-
+				<pre><code>
+ _barRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityId identifier:regionID];
+    
  _barRegion.notifyOnEntry = YES;
-
  _barRegion.notifyOnExit = YES;
-
  _barRegion.notifyEntryStateOnDisplay = YES;
-
+    
  [_locationManager startMonitoringForRegion:_barRegion];
-</code></pre>
+				</code></pre>
 
 				<p>
 					This basically tells CLLocationManager to notify me of region proximity on entry of a region, exit of region, and when the
@@ -591,7 +569,7 @@ identifier:regionID];
 				
 				<p>
 					You can specify in your application object that you want to receive background location updates. We found that these 
-					happen regardless of whether you set this value. We also found that it may take a long time to receive this update (<= 
+					happen regardless of whether you set this value. We also found that it may take a long time to receive this update (&lt;=
 					15minutes) if the app is in the background. There is a nice article that conﬁrms this here (<a href="http://
 					developer.radiusnetworks.com/2013/11/13/ibeacon-monitoring-in-the-background-and-foreground.html">http://
 					developer.radiusnetworks.com/2013/11/13/ibeacon-monitoring-in-the-background-and-foreground.html</a>)
@@ -603,25 +581,23 @@ identifier:regionID];
 					beacon proximity as the result of a CLLocationManager update:
 				</p>
 
-<pre><code>
-- (void)locationManager:(CLLocationManager *)manager 
-didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
+				<pre><code>
+- (void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
 {
-
- if ([region isKindOfClass:[CLBeaconRegion class]] ) {
-
- if(state == CLRegionStateInside)
- {
-
- if ([UIApplication sharedApplication].applicationState == UIApplicationState-
-Background)
- {
-
- //range beacons for 10 seconds.. 
- [manager startRangingBeaconsInRegion:(CLBeaconRegion*)region];
-
- }
-</code></pre>
+    
+    if ([region isKindOfClass:[CLBeaconRegion class]] ) {
+        
+        if(state == CLRegionStateInside)
+        {
+        
+        if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground)
+        {
+            
+            //range beacons for 10 seconds.. 
+            [manager startRangingBeaconsInRegion:(CLBeaconRegion*)region];
+            
+        }
+				</code></pre>
 
 				<p>
 					If the app determines that you need a bar score update and you’re in the background, it will execute a network call and
