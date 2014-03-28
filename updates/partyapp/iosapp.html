@@ -236,7 +236,7 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 
 			
 			<p>
-				With newer versions of IOS, the bluetooth stack is on by default (presumably to mitigate the following issue). However,
+				With newer versions of IOS, the bluetooth stack is on by default (presumably to automatically enable apps like ours). However,
 				none of the iBeacon detection would work if the IOS bluetooth manager wasn’t running so we had to check for this also.
 			</p>
 			
@@ -354,7 +354,7 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 					each. For example, you can conﬁgure all of your devices with separate UUIDs with same major/minor, or the same UUID					
 					with different major/minor, or any combination of the three. In order to deﬁne the bluetooth LE packet as an iBeacon 					
 					packet, Apple deﬁnes a few bytes of information that must be included in the packet itself so it can be differentiated by 					
-					the IOS BT driver, and passed up the Cocoa stack to CoreLocation.
+					the IOS bluetooth driver, and passed up the Cocoa stack to CoreLocation.
 				</p>
 				
 				<h3>
@@ -364,7 +364,14 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 				<p>
 					An application can register for proximity updates through the <b>CLLocationManager</b> class (a similar technique utilized for
 					GPS region monitoring). When service wants to receive location notiﬁcations, it implements the 
-					<b>CLLocationManagerDelegate</b> protocol.
+					<b>CLLocationManagerDelegate</b> protocol.  The CLLocationManagerDelegate protocol defines two new functions for handling iBeacon proximity
+					updates:
+					<p>
+					<pre><code>- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region<br>
+					- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
+					</code>
+					</pre>
+					</p>
 				</p>
 				
 				<p>
