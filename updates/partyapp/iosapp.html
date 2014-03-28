@@ -24,6 +24,13 @@
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
+
+		
+		<!-- highlight.js -->
+		<link rel="stylesheet" href="/lib/highlight/styles/default.css">
+		<script src="/lib/highlight/highlight.pack.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+
 	</head>
 
 	<body>
@@ -199,7 +206,7 @@
 					utilized its reachability services;
 				</p>
 
-<pre><code>
+				<pre><code>
 AFNetworkReachabilityManager *reachability = [HttpClient 
 sharedClient].reachabilityManager;
  [reachability setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus 
@@ -214,8 +221,8 @@ status) {
  default:
  break;
  }
- }];		
-</code></pre>
+ }];
+			</code></pre>
 
 			<p>
 				If the network was unreachable, we disallowed both user registration and image uploading.
