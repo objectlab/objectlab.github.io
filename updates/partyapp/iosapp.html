@@ -190,13 +190,9 @@
 				</p>
 				
 				<h4>
-					Sanity Checks
+					Sanity Check: Network
 				</h4>
-				
-				<h5>
-					Network
-				</h5>
-				
+
 				<p>
 					Since the app made a lot of service calls, we had to implement the standard network ‘reachability’ checks as required by
 					Apple for submission. Since we were using <b>AFNetworking</b> (https://github.com/AFNetworking/AFNetworking) we
@@ -225,9 +221,10 @@ status) {
 				If the network was unreachable, we disallowed both user registration and image uploading.
 			</p>
 			
-			<h5>
-				Bluetooth
-			</h5>
+			<h4>
+				Sanity Check: Bluetooth
+			</h4>
+
 			
 			<p>
 				With newer versions of IOS, the bluetooth stack is on by default (presumably to mitigate the following issue). However,
