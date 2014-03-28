@@ -601,6 +601,42 @@ NSArray *farBeacons = [barBeacons filteredArrayUsingPredicate:[NSPredicate 	pred
 					update your display with a localNotiﬁcation. The following illustrates bar score updating in the background that results in a
 					local notification displayed when the phone wakes up.
 				</p>
+				<pre><code>
+- (BOOL) updateBarScoreInBackground
+{
+    
+    // we're using background tasks because normally there is only 5 seconds to do something when transitioning to
+    // a background state.  A server update may take longer.
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    UIBackgroundTaskIdentifier bgTask = UIBackgroundTaskInvalid;
+    
+    bgTask = [[UIApplication sharedApplication]
+              beginBackgroundTaskWithExpirationHandler:^{
+                  [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+              }];
+
+    
+    NSLog(@"calling update bar score in background ");
+    [self updateBarScore];
+    
+    
+    if (bgTask != UIBackgroundTaskInvalid)
+    {
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }
+
+    });
+
+    return TRUE;
+    
+}
+				</code>
+				</pre>
+				<p>
+				When you turn on your screen, you see this:
+				</p>
 				<p><img src="/img/photo_display.png" ></p>
 		
 			</div> <!-- /.page-content -->
