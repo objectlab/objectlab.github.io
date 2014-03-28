@@ -251,13 +251,11 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
     
     switch (central.state) {
         case CBCentralManagerStatePoweredOff:
-            NSLog(@"CoreBluetooth BLE hardware is powered off");
             stateString = @"Bluetooth is powered off.  If you want to play, go to settings and turn it on.";
             _btReady = NO;
             [self stopMonitoring];
             break;
         case CBCentralManagerStatePoweredOn:
-            NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
             stateString = @"Bluetooth hardware is powered on and ready";
             _btReady = YES;
                //start the bar beacon region monitoring
@@ -265,21 +263,17 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 
             break;
         case CBCentralManagerStateResetting:
-            NSLog(@"CoreBluetooth BLE hardware is resetting");
             _btReady = NO;
             break;
         case CBCentralManagerStateUnauthorized:
-            NSLog(@"CoreBluetooth BLE state is unauthorized");
             stateString = @"The app is not authorized to use Bluetooth Low Energy";
             _btReady = NO;
             break;
         case CBCentralManagerStateUnknown:
-            NSLog(@"CoreBluetooth BLE state is unknown");
             stateString = @"The bluetooth LE state unknown, disabling for now.. update pending.";
             _btReady = NO;
             break;
         case CBCentralManagerStateUnsupported:
-            NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
             stateString = @"Bluetooth Low Energy is unsupported on this platform";
             _btReady = NO;
             break;
@@ -349,7 +343,7 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 				
 				<p>
 					RSSI : (Received Signal Strength) power setting that will be used to extrapolate a distance setting based on the received
-					BT packet. <span style="color:red">(NEED TO EXPLAIN THE Transmitter power calibration here should be in craig’s write up?)</span>
+					BT packet. 
 				</p>
 				
 				<p>
@@ -398,7 +392,7 @@ NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:@"E2C56DB5-DFFB-48D2-B060-D0F5
 				<p>
 					Assuming bluetooth is working, you’ve registered your UUIDs for the beacons you’re interested in, (, you’re ready to start
 					receiving proximity notiﬁcations. The class that implements the CLLocationManagerDelegate protocol will implement the 
-					following method to receive callbacks every second:
+					following method to receive callbacks every second, per <b>CLBeaconRegion</b> defined in the <b>CLLocationManager</b> instance:
 				</p>
 
 				<pre><code>
