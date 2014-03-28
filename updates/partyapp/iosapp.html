@@ -364,14 +364,7 @@ AFNetworkReachabilityManager *reachability = [HttpClient sharedClient].reachabil
 				<p>
 					An application can register for proximity updates through the <b>CLLocationManager</b> class (a similar technique utilized for
 					GPS region monitoring). When service wants to receive location notiﬁcations, it implements the 
-					<b>CLLocationManagerDelegate</b> protocol.  The CLLocationManagerDelegate protocol defines two new functions for handling iBeacon proximity
-					updates:
-					<p>
-					<pre><code>- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region<br>
-- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
-					</code>
-					</pre>
-					</p>
+					<b>CLLocationManagerDelegate</b> protocol. 
 				</p>
 				
 				<p>
