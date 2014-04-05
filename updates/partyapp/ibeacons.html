@@ -130,12 +130,386 @@ echo "Complete"
 					<h1>iBeacons</h1>
 				</div>
 				
-				<h3>Background</h3>
+				<h3>What is it?</h3>
 				
 				<p >
-					Bla Bla Bla
+					<strong>iBeacon</strong> is an extension to <strong>Apple’s Location</strong> Services that provides a measurement
+					of the proximity of the IOS device to a device that is broadcasting its presence with 
+					Bluetooth LE.
 				</p>
 				
+				<p>
+					So before we continue with iBeacons, we need to take a step back and discuss
+					Bluetooth LE.
+				</p>
+				
+				<h3>Bluetooth LE</h3>
+				
+				<p>
+					Bluetooth LE is a an extension to the overall Bluetooth protocol which is intended
+					to enable devices to be able to transmit small payloads with Low Energy (LE) 
+					requirements. By low energy, we mean devices that can potentially operate off a
+					coin battery for up to 4 years.
+				</p>
+				
+				<img src="/img/batteries.jpg">
+				
+				<p>
+					Bluetooth LE is able to achieve this energy efficiency by keeping payloads small, 
+					using “connectionless” broadcasting of advertising packets (similar to normal 
+					Bluetooth discovery mode), and enabling lightweight (3ms) handshakes when 
+					connections are necessary.
+				</p>
+				
+				<p>
+					This protocol allows devices to broadcast small bits of information. Possibilities are
+					endless, but here are some examples:
+				</p>
+				
+
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td>
+									Sensors Broadcasting Readings
+								</td>
+								<td>
+									Devices Broadcasting Status
+								</td>
+								<td>
+									Controllers Issuing Commands
+								</td>							
+							</tr>
+							<tr>
+								<td>
+									<ul>
+										
+										<li>Temperature</li>
+										<li>Humidity</li>
+										<li>Tire Pressure</li>
+										<li>Blood Pressure</li>
+										<li>Barometric Pressure</li>
+										<li>Altitude</li>
+										<li>Weight</li>
+									</ul>
+								</td>
+								<td>
+									<ul>
+										
+										<li>Ready</li>
+										<li>Waiting</li>
+										<li>Locked</li>
+										<li>Processing</li>
+										<li>In Error</li>
+									</ul>									
+								</td>
+								<td>
+									<ul>
+										<li>Play</li>
+										<li>Stop</li>
+										<li>Unlock</li>
+										<li>Change Channel</li>
+										<li>Dehumidify</li>
+										<li>Dim lights</li>
+									</ul>									
+								</td>								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<p>
+					This isn’t necessarily a new concept. The ANT+ protocol has provided a low energy data 
+					transmission protocol that has been used for years. For example, companies like Polar and Garmin 
+					have for several years used ANT+ to transmit heart rate from a coin battery operated sensor 
+					that athletes where on a chest strap to a watch, bike computer, or ... smart-phone. 
+				</p>
+				
+				<p>
+					Bluetooth LE is likely to displace many such ANT+ implementations, due to the
+					simple fact that many devices (such as mobile phones) already have Bluetooth 
+					antennas and radios, while ANT+ radios and antennas are generally add-ons.
+				</p>
+				
+				<p>
+					Often the data being broadcast by these low powered devices will be useful to
+					aggregate by web services into servers and databases in the Internet cloud. But
+					since these low energy devices can’t directly communicate to those web services, 
+					IOS devices (and other Bluetooth-enabled devices that also have wired or wireless 
+					internet connections) will inevitably act as gateways to between these low energy 
+					devices and the larger Internet.
+				</p>
+				
+				<h3>
+					Back to iBeacons
+				</h3>
+				
+				<p>
+					As mentioned above, iBeacon is Apple’s implementation of Bluetooth LE for 
+					proximity. And although it’s Apple’s implementation, it’s worth noting that there’s				
+					not really anything closed or proprietary about it, and thus Android and other 				
+					development platforms that have Bluetooth LE stacks can also implement fully 
+					compatible receivers of iBeacon proximity broadcasts.
+				</p>
+				
+				<p>
+					In many ways, iBeacon is Apple’s answer to NFC. With greater range and flexibility,
+					together with the fact that no additional hardware needs to be deployed in the 
+					device (since that Bluetooth radio and antenna is already present), any folks 
+					surmise that iBeacon might be an “NFC-killer” … at least in the Apple’s eco-system.
+				</p>
+				
+				<p>
+					So an iBeacon is simply a device that broadcasts in Bluetooth LE. But unlike all
+					the examples of payloads mentioned above, these devices simply broadcast their
+					existence and identity.
+				</p>
+				
+				<blockquote>					
+					<p>
+						<em>“iBeacon E2C56DB5-DFFB-48D2-B060-D0F5A71096E0 here!”</em>
+					</p>
+					<p>
+						<em>“iBeacon E2C56DB5-DFFB-48D2-B060-D0F5A71096E0 here!”</em>
+					</p>
+					<p>
+						<em>“iBeacon E2C56DB5-DFFB-48D2-B060-D0F5A71096E0 here!”</em>
+					</p>					
+				</blockquote>
+				
+				<p>
+					An iBeacon will repeatedly broadcast the same advertising packet over and over.
+					More specifically, it will broadcast 31 bytes that break down like this:
+				</p>
+				
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td>
+									Sample Data
+								</td>								
+								<td>
+									Description
+								</td>	
+							</tr>
+							<tr>
+								<td>
+									02 01 06 1A FF 4C 00 02 15
+								</td>								
+								<td>
+									Fixed iBeacon prefix (note: 1A indicates LE General Discoverable Mode; 4C 00 is Apple’s company identifier)
+								</td>	
+							</tr>
+							<tr>
+								<td>
+									B9 40 7F 30 F5 F8 46 6E AF F9 25 55 6B 57 FE 6D
+								</td>								
+								<td>
+									Proximity UUID
+								</td>	
+							</tr>
+							<tr>
+								<td>
+									00 49
+								</td>								
+								<td>
+									Major (available for developer use)
+								</td>	
+							</tr>
+							<tr>
+								<td>
+									00 0A
+								</td>								
+								<td>
+									Minor (available for developer use)
+								</td>	
+							</tr>							
+							<tr>
+								<td>
+									C5
+								</td>								
+								<td>
+									TX Measured power (2’s complement)
+								</td>	
+							</tr>	
+						</tbody>
+					</table>
+				</div>
+				
+				<p>
+					We used 2 different UUIDs to establish two different kinds of iBeacons (so that we
+					could range and monitor them differently) and then used the Major/Minor number 
+					to distinguish between individual iBeacons. But more on that later.
+				</p>
+				
+				<p>
+					The TX Measured power is a value that indicates the strength of the signal at a 1 
+					meter distance from the iBeacon. The receiving device (IOS device) then compares
+					this to the measured signal strength, and is then able to estimate the distance
+					between the iBeacon and the IOS device. A signal value that is weaker than the TX
+					value would suggest that distance is greater than 1 meter, and an approximation 
+					can be calculated. Apple abstracts this calculation in their iBeacon Stack, exposing 
+					a simple scale with “Immediate”, “Near”, “Far”, or providing a estimated distance 
+					value in meters.
+				</p>
+				
+				<p>
+					It is important that the iBeacon device is calibrated to determine the appropriate TX 
+					value. Apple AirLocate app can assist with calibration by allowing you to physically 
+					stand 1 meter from the iBeacon and measure the signal strength. In our experience, 
+					there could be several factors affecting calibration (but we haven’t been able to
+					verify this):
+				</p>
+				
+				<ul>
+					<li>Brand/model of Bluetooth radio/antenna</li>
+					<li>Nature of surroundings (inside vs. outside, type of materials in the area)</li>
+					<li>Density of surroundings (it seemed like open space was different than a room full of people)</li>
+				</ul>
+				
+				<h3>
+					IOS Device Support
+				</h3>
+				
+				<p>
+					Here are the requirements for iBeacon support on IOS devices:
+				</p>
+				
+				<ul>
+					<li>iOS 7 or later</li>
+					<li>iPhone 4s or later</li>
+					<li>iPad (3rd generation) or later</li>
+					<li>iPad mini (1st generation) or later</li>
+					<li>iPod touch (5th generation) or later</li>
+					
+				</ul>
+				
+				<h3>
+					A Few Words about iBeacon UUIDs
+				</h3>
+				
+				<p>
+					As noted above, iBeacons are identified by UUIDs. We used some generic UUIDs that 
+					are often used in sample code and other developer tools (such as Apple’s utility app 
+					Air Locate). We used a total of 8 iBeacons and set them up as two different UUIDs
+					(so that we could range and monitor them differently on the IOS device):
+				</p>
+				
+				<ul>
+					<li>Claim Beacons: <code>E2C56DB5-DFFB-48D2-B060-D0F5A71096E0</code> with Major/Minor 1-6 to further distinguish</li>
+					<li>Bar Beacon(s): <code>5A4BCFCE-174E-4BAC-A814-092E77F6B7E5</code> with Major/Minor number not used</li>
+				</ul>
+				
+				<p>
+					Here is a list of the 8 “developer” UUIDs:
+				</p>
+				
+				<ul>
+					<li><code>E2C56DB5-DFFB-48D2-B060-D0F5A71096E0</code></li>
+					<li><code>5A4BCFCE-174E-4BAC-A814-092E77F6B7E5</code></li>			
+					<li><code>74278BDA-B644-4520-8F0C-720EAF059935</code></li>
+					<li><code>112ebb9d-b8c9-4abd-9eb3-43578bf86a41</code></li>
+					<li><code>22a17b43-552a-4482-865f-597d4c10bacc</code></li>
+					<li><code>33d8e127-4e58-485b-bee7-266526d8ecb2</code></li>
+					<li><code>44f506a4-b778-4c4e-8522-157aac0efabd</code></li>
+					<li><code>552452fe-f374-47c4-bfad-9ea4165e1bd9</code></li>
+				</ul>
+				
+				<p>
+					It was helpful to use “developer” UUIDs because we could use other tools (like
+					Apple’s AirLocate) to assist with testing, calibrating, etc. In fact, this became very
+					helpful when we submitted the app for Apple’s review, because they were able
+					to test our app without us having to send them iBeacon hardware. For normal 
+					commercial use, however, it is expected that devlopers would use their own UUIDs 
+					... and we also hope that Apple relaxes the app review process, because sending 
+					them iBeacon hardware to test with seems quite onerous.
+				</p>
+				
+				<h3>
+					More on UUIDs: A Registry?
+				</h3>
+				
+				<p>
+					While we were developing, we thought it would be helpful to have a iBeacon
+					registry - similar to DNS - that would enable the following:
+				</p>
+				
+				<ul>
+					<li>iBeacon deployment can be made “public”, by essentially advertising where they are (and what type of information they broadcast)</li>
+					<li>Enable developers to streamline UUID management (rather than hardcode, which is what we would up doing)</li>
+					<li>Enable developers to write applications that leverage what will undoubtedly by a growing population of deployed iBeacons</li>
+				</ul>
+				
+				<p>
+					Since iBeacons can be used for very different things, such a solutions are likely to 
+					evolve in a vertical manner. An obvious vertical that many pundits are anticipating
+					is Retail Merchandising.
+				</p>
+				
+				<p>
+					But here at Objectlab, we’re really hoping for a registry of all the venues with Bar Beacons!
+				</p>
+				
+				<h3>
+					Raspberry Pi as iBeacon
+				</h3>
+				
+				<p>
+					So when we began our Holiday Party Game project, we originally looked at buying
+					prefabricated iBeacons from a company such as Estimote, which sells them for as 
+					little as $10 each. But the lead time for delivery was too long for our purposes.
+				</p>
+				
+				<p>
+					Meanwhile, a few of us had the Raspberry Pi ($40), and we soon learned that it was
+					relatively easy to add a Bluetooth dongle ($10) and configure it to be an iBeacon. We
+					even ordered up a Raspberry Pi from Radius Networks that came pre-configured to
+					be an iBeacon.
+				</p>
+				
+				<p>
+					For those of you who may not be familiar with it, the Raspberry Pi is a low cost
+					computer originally designed for educational purposes. But it’s also very useful for 
+					prototyping or simulating devices that will increasingly become the “Internet of 
+					Things”. And so we set about the other 7 Raspberry Pi computers as iBeacons.					
+				</p>
+				
+				<p>
+					Fortunately, configuring a Raspberry PI to be an iBeacon is both simply and fairly
+					well-documented in a few blogs online. Rather than regurgitate that here, I will 
+					merely summarize and offer some links to more detailed references.
+				</p>
+				
+				<p>
+					The steps included:
+				</p>
+				
+				<ul>
+					<li>Flash a SD Card with Rasbian</li>
+					<li>Install BlueZ drivers (to support Bluetooth)</li>
+					<li>Start BlueZ Bluetooth</li>
+					<li>Establish a config file with the UUID, Major/Minor numbers (and a default TX value)</li>
+					<li>Instruct the BlueZ drivers to begin advertising the iBeacon packet</li>
+					<li>Use Air Locate (on IOS device) to measure signal strength at 1 meter</li>
+					<li>Modify the config file with the new Tx value)</li>
+					<li>Add the iBeacon advertising startup command to the boot script</li>								
+				</ul>
+				
+				<p>
+					Now we had Raspberry Pi devices that can be plugged into a wall or any battery
+					pack capable of 5V (USB) power, and within 30 seconds it will be a live iBeacon.
+				</p>
+				
+				<p>
+					References:
+				</p>
+				
+				<ul>
+					<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup">http://elinux.org/RPi_Easy_SD_Card_Setup</a></li>
+					<li><a href="http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/">http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/</a></li>
+				</ul>
 
 			
 			</div> <!-- /.page-content -->
