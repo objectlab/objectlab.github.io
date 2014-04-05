@@ -166,58 +166,55 @@ echo "Complete"
 					endless, but here are some examples:
 				</p>
 				
-
-				<div class="table-responsive">
-					<table class="table table-bordered">
-						<tbody>
-							<tr>
-								<td>
-									Sensors Broadcasting Readings
-								</td>
-								<td>
-									Devices Broadcasting Status
-								</td>
-								<td>
-									Controllers Issuing Commands
-								</td>							
-							</tr>
-							<tr>
-								<td>
-									<ul>
-										
-										<li>Temperature</li>
-										<li>Humidity</li>
-										<li>Tire Pressure</li>
-										<li>Blood Pressure</li>
-										<li>Barometric Pressure</li>
-										<li>Altitude</li>
-										<li>Weight</li>
-									</ul>
-								</td>
-								<td>
-									<ul>
-										
-										<li>Ready</li>
-										<li>Waiting</li>
-										<li>Locked</li>
-										<li>Processing</li>
-										<li>In Error</li>
-									</ul>									
-								</td>
-								<td>
-									<ul>
-										<li>Play</li>
-										<li>Stop</li>
-										<li>Unlock</li>
-										<li>Change Channel</li>
-										<li>Dehumidify</li>
-										<li>Dim lights</li>
-									</ul>									
-								</td>								
-							</tr>
-						</tbody>
-					</table>
-				</div>
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td>
+								Sensors Broadcasting Readings
+							</td>
+							<td>
+								Devices Broadcasting Status
+							</td>
+							<td>
+								Controllers Issuing Commands
+							</td>							
+						</tr>
+						<tr>
+							<td>
+								<ul>
+									
+									<li>Temperature</li>
+									<li>Humidity</li>
+									<li>Tire Pressure</li>
+									<li>Blood Pressure</li>
+									<li>Barometric Pressure</li>
+									<li>Altitude</li>
+									<li>Weight</li>
+								</ul>
+							</td>
+							<td>
+								<ul>
+									
+									<li>Ready</li>
+									<li>Waiting</li>
+									<li>Locked</li>
+									<li>Processing</li>
+									<li>In Error</li>
+								</ul>									
+							</td>
+							<td>
+								<ul>
+									<li>Play</li>
+									<li>Stop</li>
+									<li>Unlock</li>
+									<li>Change Channel</li>
+									<li>Dehumidify</li>
+									<li>Dim lights</li>
+								</ul>									
+							</td>								
+						</tr>
+					</tbody>
+				</table>
 				
 				<p>
 					This isn’t necessarily a new concept. The ANT+ protocol has provided a low energy data 
@@ -277,60 +274,58 @@ echo "Complete"
 					More specifically, it will broadcast 31 bytes that break down like this:
 				</p>
 				
-				<div class="table-responsive">
-					<table class="table table-bordered">
-						<tbody>
-							<tr>
-								<td>
-									Sample Data
-								</td>								
-								<td>
-									Description
-								</td>	
-							</tr>
-							<tr>
-								<td>
-									02 01 06 1A FF 4C 00 02 15
-								</td>								
-								<td>
-									Fixed iBeacon prefix (note: 1A indicates LE General Discoverable Mode; 4C 00 is Apple’s company identifier)
-								</td>	
-							</tr>
-							<tr>
-								<td>
-									B9 40 7F 30 F5 F8 46 6E AF F9 25 55 6B 57 FE 6D
-								</td>								
-								<td>
-									Proximity UUID
-								</td>	
-							</tr>
-							<tr>
-								<td>
-									00 49
-								</td>								
-								<td>
-									Major (available for developer use)
-								</td>	
-							</tr>
-							<tr>
-								<td>
-									00 0A
-								</td>								
-								<td>
-									Minor (available for developer use)
-								</td>	
-							</tr>							
-							<tr>
-								<td>
-									C5
-								</td>								
-								<td>
-									TX Measured power (2’s complement)
-								</td>	
-							</tr>	
-						</tbody>
-					</table>
-				</div>
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td>
+								Sample Data
+							</td>								
+							<td>
+								Description
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								02 01 06 1A FF 4C 00 02 15
+							</td>								
+							<td>
+								Fixed iBeacon prefix (note: 1A indicates LE General Discoverable Mode; 4C 00 is Apple’s company identifier)
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								B9 40 7F 30 F5 F8 46 6E AF F9 25 55 6B 57 FE 6D
+							</td>								
+							<td>
+								Proximity UUID
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								00 49
+							</td>								
+							<td>
+								Major (available for developer use)
+							</td>	
+						</tr>
+						<tr>
+							<td>
+								00 0A
+							</td>								
+							<td>
+								Minor (available for developer use)
+							</td>	
+						</tr>							
+						<tr>
+							<td>
+								C5
+							</td>								
+							<td>
+								TX Measured power (2’s complement)
+							</td>	
+						</tr>	
+					</tbody>
+				</table>
 				
 				<p>
 					We used 2 different UUIDs to establish two different kinds of iBeacons (so that we
