@@ -166,6 +166,8 @@ echo "Complete"
 					endless, but here are some examples:
 				</p>
 				
+				
+				
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
@@ -352,11 +354,13 @@ echo "Complete"
 					verify this):
 				</p>
 				
-				<ul>
-					<li>Brand/model of Bluetooth radio/antenna</li>
-					<li>Nature of surroundings (inside vs. outside, type of materials in the area)</li>
-					<li>Density of surroundings (it seemed like open space was different than a room full of people)</li>
-				</ul>
+				<p>
+					<ul>
+						<li>Brand/model of Bluetooth radio/antenna</li>
+						<li>Nature of surroundings (inside vs. outside, type of materials in the area)</li>
+						<li>Density of surroundings (it seemed like open space was different than a room full of people)</li>
+					</ul>
+				</p>
 				
 				<h3>
 					IOS Device Support
@@ -366,14 +370,16 @@ echo "Complete"
 					Here are the requirements for iBeacon support on IOS devices:
 				</p>
 				
-				<ul>
-					<li>iOS 7 or later</li>
-					<li>iPhone 4s or later</li>
-					<li>iPad (3rd generation) or later</li>
-					<li>iPad mini (1st generation) or later</li>
-					<li>iPod touch (5th generation) or later</li>
-					
-				</ul>
+				<p>
+					<ul>
+						<li>iOS 7 or later</li>
+						<li>iPhone 4s or later</li>
+						<li>iPad (3rd generation) or later</li>
+						<li>iPad mini (1st generation) or later</li>
+						<li>iPod touch (5th generation) or later</li>
+						
+					</ul>
+				</p>
 				
 				<h3>
 					A Few Words about iBeacon UUIDs
@@ -395,16 +401,18 @@ echo "Complete"
 					Here is a list of the 8 “developer” UUIDs:
 				</p>
 				
-				<ul>
-					<li><code>E2C56DB5-DFFB-48D2-B060-D0F5A71096E0</code></li>
-					<li><code>5A4BCFCE-174E-4BAC-A814-092E77F6B7E5</code></li>			
-					<li><code>74278BDA-B644-4520-8F0C-720EAF059935</code></li>
-					<li><code>112ebb9d-b8c9-4abd-9eb3-43578bf86a41</code></li>
-					<li><code>22a17b43-552a-4482-865f-597d4c10bacc</code></li>
-					<li><code>33d8e127-4e58-485b-bee7-266526d8ecb2</code></li>
-					<li><code>44f506a4-b778-4c4e-8522-157aac0efabd</code></li>
-					<li><code>552452fe-f374-47c4-bfad-9ea4165e1bd9</code></li>
-				</ul>
+				<p>
+					<ul>
+						<li><code>E2C56DB5-DFFB-48D2-B060-D0F5A71096E0</code></li>
+						<li><code>5A4BCFCE-174E-4BAC-A814-092E77F6B7E5</code></li>			
+						<li><code>74278BDA-B644-4520-8F0C-720EAF059935</code></li>
+						<li><code>112ebb9d-b8c9-4abd-9eb3-43578bf86a41</code></li>
+						<li><code>22a17b43-552a-4482-865f-597d4c10bacc</code></li>
+						<li><code>33d8e127-4e58-485b-bee7-266526d8ecb2</code></li>
+						<li><code>44f506a4-b778-4c4e-8522-157aac0efabd</code></li>
+						<li><code>552452fe-f374-47c4-bfad-9ea4165e1bd9</code></li>
+					</ul>
+				</p>
 				
 				<p>
 					It was helpful to use “developer” UUIDs because we could use other tools (like
@@ -425,11 +433,13 @@ echo "Complete"
 					registry - similar to DNS - that would enable the following:
 				</p>
 				
-				<ul>
-					<li>iBeacon deployment can be made “public”, by essentially advertising where they are (and what type of information they broadcast)</li>
-					<li>Enable developers to streamline UUID management (rather than hardcode, which is what we would up doing)</li>
-					<li>Enable developers to write applications that leverage what will undoubtedly by a growing population of deployed iBeacons</li>
-				</ul>
+				<p>
+					<ul>
+						<li>iBeacon deployment can be made “public”, by essentially advertising where they are (and what type of information they broadcast)</li>
+						<li>Enable developers to streamline UUID management (rather than hardcode, which is what we would up doing)</li>
+						<li>Enable developers to write applications that leverage what will undoubtedly by a growing population of deployed iBeacons</li>
+					</ul>
+				</p>
 				
 				<p>
 					Since iBeacons can be used for very different things, such a solutions are likely to 
@@ -475,16 +485,18 @@ echo "Complete"
 					The steps included:
 				</p>
 				
-				<ul>
-					<li>Flash a SD Card with Rasbian</li>
-					<li>Install BlueZ drivers (to support Bluetooth)</li>
-					<li>Start BlueZ Bluetooth</li>
-					<li>Establish a config file with the UUID, Major/Minor numbers (and a default TX value)</li>
-					<li>Instruct the BlueZ drivers to begin advertising the iBeacon packet</li>
-					<li>Use Air Locate (on IOS device) to measure signal strength at 1 meter</li>
-					<li>Modify the config file with the new Tx value)</li>
-					<li>Add the iBeacon advertising startup command to the boot script</li>								
-				</ul>
+				<p>
+					<ul>
+						<li>Flash a SD Card with Rasbian</li>
+						<li>Install BlueZ drivers (to support Bluetooth)</li>
+						<li>Start BlueZ Bluetooth</li>
+						<li>Establish a config file with the UUID, Major/Minor numbers (and a default TX value)</li>
+						<li>Instruct the BlueZ drivers to begin advertising the iBeacon packet</li>
+						<li>Use Air Locate (on IOS device) to measure signal strength at 1 meter</li>
+						<li>Modify the config file with the new Tx value)</li>
+						<li>Add the iBeacon advertising startup command to the boot script</li>								
+					</ul>
+				</p>
 				
 				<p>
 					Now we had Raspberry Pi devices that can be plugged into a wall or any battery
@@ -495,10 +507,12 @@ echo "Complete"
 					References:
 				</p>
 				
-				<ul>
-					<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup">http://elinux.org/RPi_Easy_SD_Card_Setup</a></li>
-					<li><a href="http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/">http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/</a></li>
-				</ul>
+				<p>
+					<ul>
+						<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup">http://elinux.org/RPi_Easy_SD_Card_Setup</a></li>
+						<li><a href="http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/">http://www.ioncannon.net/programming/1603/turn-a-raspberry-pi-into-an-ibeacon/</a></li>
+					</ul>
+				</p>
 
 			
 			</div> <!-- /.page-content -->
