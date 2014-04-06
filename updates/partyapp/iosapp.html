@@ -153,7 +153,7 @@
 					<b>AirLocate</b>(source code here: <a href="https://developer.apple.com/library/ios/samplecode/AirLocate/Introduction/Intro.html#//					
 					apple_ref/doc/uid/DTS40013430-Intro-DontLinkElementID_2" >https://developer.apple.com/library/ios/samplecode/AirLocate/Introduction/Intro.html#//					
 					apple_ref/doc/uid/DTS40013430-Intro-DontLinkElementID_2</a>)<br>
-					AirLocate demonstrates both major use cases: (1) detection of local iBeacons; (2) and configuration of the IOS Device as iBeacon itself.
+					AirLocate demonstrates the implementation of both major usage models: (1) detection of local iBeacons; (2) and configuration of the IOS Device itself as an iBeacon.
 				</p>
 				
 				<p>
@@ -508,7 +508,7 @@ NSArray *farBeacons = [barBeacons filteredArrayUsingPredicate:[NSPredicate 	pred
 				<p>
 					Bar score updates followed exactly the same process as hidden beacon claiming, while the app was in the foreground,
 					that is. The one twist with bar score updating is that we didn’t want the app updating their bar score every second. This 
-					would have been too much network trafﬁc. A timer was set to update every 5 seconds. If the user was in the proper 
+					would have produced too much network trafﬁc. A timer was set to update every 5 seconds. If the user was in the proper 
 					vicinity of the bar beacons when the timer ﬁred, their score would get updated on the server. If not, it wasn’t.
 				</p>
 				
