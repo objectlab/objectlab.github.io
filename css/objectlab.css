@@ -169,7 +169,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 }
 
 .banner-iosapp {
-	background: transparent url("/img/iosapp-banner.png") no-repeat left top;
+	background: #F4F4F4 url("/img/iosapp-banner.png") no-repeat left top;
 }
 
 .banner-server {
