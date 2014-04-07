@@ -122,8 +122,7 @@
 				<h3>D3.js</h3>
 				
 				<p>
-					When it came to HTML based visualization the choice was easy. We had successfully utilized D3.js for client projects and felt comfortable enough that we would be able to 
-					hack up something interesting for this.
+					When it came to HTML based visualization the choice was easy. We had successfully utilized D3.js for client projects and felt comfortable enough that we would be able to hack up something interesting for this.
 				</p>
 				
 				<p>
@@ -133,10 +132,10 @@
 				<h3>‘People At The Bar’ Visualization</h3>
 				
 				<p>
-					We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage 
-					them with game related personalized messages. The iOS App already detects if a person is close to iBeacons placed strategically at the bar. The Server App provides a web-service 
-					giving us all the players who were currently at the bar.  All we needed was an interesting way to simulate people hanging out a bar, bumping into each other, trying to push through 
-					the crowd to order a drink. 
+					We figured the best way to visualize micro-location detection was to simulate typical 'people at the bar' behaviour, to display their mugshot and screen name and attempt to engage them with game-related personalized messages. 
+					The <a href="http://objectlab.github.io/updates/partyapp/iosapp.html">iOS App</a> already detects if a person is close to <a href="http://objectlab.github.io/updates/partyapp/ibeacons.html">iBeacons</a> placed strategically at the bar. 
+					The <a href="http://objectlab.github.io/updates/partyapp/server.html">Server App</a> provides a web-service 
+					giving us all the players who were currently at the bar. All we needed was an interesting way to simulate people hanging out a bar, bumping into each other, trying to push through the crowd to order a drink...
 				</p>
 				
 				<p>
@@ -148,56 +147,59 @@
 				</p>
 
 				<p>
-					The people in the sketch all look a bit pissed off, hopefully the real crowd would be happier, but we shall see. New arrivals would come bouncing onto the screen causing 
-					movement of others already at the bar… just like in the real world.
+					The people in the sketch all look a bit pissed off, hopefully the real crowd would be happier, but we shall see. New arrivals would come bouncing onto the screen causing movement of others already at the bar... 
+					you know, kind of typical, jostling at-the-bar behaviour.
 				</p>
 				
 				<p>
-					<a href="https://github.com/mbostock/d3/wiki/Force-Layout#force">d3.layout.force</a> provides all of the features that are needed to perfectly simulate the forces at play in a 
-					crowded bar. A little bit of JavaScript, CSS and SVG hacking and bubbles of people were bouncing around the screen.  If you are interested in how it was all implemented you can 
-					take a look at the src code here:
+					<a href="https://github.com/mbostock/d3/wiki/Force-Layout#force">d3.layout.force</a> provides all of the features that are needed to perfectly simulate the forces at play in a crowded bar.  
+					A little bit of JavaScript, CSS and SVG hacking and bubbles of people were bouncing around the screen.  
+				</p>
+				<p>
+					If you are interested in how it was all implemented you can take a look at the src code here:
 					<a href="https://github.com/objectlab/Visualization">https://github.com/objectlab/Visualization</a>
 				</p>
 				
 				<h3>‘Leaderboard’ Visualization</h3>
 				
 				<p>
-					The second visualization needed to show the current leaders in both game play objectives. 
+					The second visualization needed to show the current leaders in both game play objectives - the Barscore and the Claimed Beacons Count. 
 				</p>
 				
 				<p>
-					First, a leaderboard for the highest barscore. We figured the more people frequented the bar the more drinks they had to be consuming.  Therefore the complicated mathematical 
-					equation of:
+					First, a leaderboard for the highest Barscore. We figured the more people frequented the bar the more drinks they had to be consuming.  
+					Therefore, the complicated mathematical equation of:
 				</p>
 				
 				<p>
-					<code>high barscore = high level of drunkenness</code>
+					<code><pre>high barscore = high level of drunkenness</pre></code>
 				</p>
 				
 				<p>
-					The second game objective would be to collect all of the iBeacons hidden in the club. The party had somewhat of a TRON related theme, so to visualize each iBeacons we borrowed 
-					some of the fantastically nerdy TRON symbols.
+					The second game objective would be to collect all of the iBeacons hidden in the club. The party had somewhat of a TRON-related theme, 
+					so to visualize each beacon we borrowed some nerdtastic TRON symbols.
 				</p>
 				
 				<p>
-					Again we wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
+					Again, we wanted to incorporate the players’ pictures and their screen names and add a little animation into the mix.
 				</p>
 				
 				<p>
-					Another doodle clarified what had to be done...
+					More doodling clarified what had to be done.
 				</p>
 				<p>
 					<img src="/svg/leaderboard.svg">
 				</p>
 				
 				<p>
-					The barscore leaderboard is basically a bar chart with screen name labels on the left and barscores displayed on the right. To tie this to the ‘At The Bar’ Visualization
-					 we used bubbles for each player to display their photo. We would show the top players on the top, new leaders would animate onto the screen from above pushing others off 
-					 the screen, position changes would animate respectively.
+					The Barscore Leaderboard is basically a bar chart with screen name labels on the left and barscores displayed on the right. 
+					To tie this to the ‘People At The Bar’ Visualization we used bubbles for each player to display their selfie. We would show the 
+					leading players on the top, new leaderboard arrivals would animate onto the screen from above pushing less successful players off the screen, 
+					position changes would animate respectively.
 				</p>
 				
 				<p>
-					The beacons leaderboard would simply show the top leaders and highlight the iBeacons (shown as TRON symbols) as users collected them.
+					The Beacon Leaderboard would simply show the players who were most successful at collecting beacons and highlight the ones they had claimed.
 				</p>
 				
 				<p>
