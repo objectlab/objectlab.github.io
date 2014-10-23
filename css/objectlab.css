@@ -33,16 +33,16 @@ h1, .h1, h2, .h2, h3, .h3 {
   color: #4A4A4A;
   font-size: 36px;
   font-weight: 600;
-  padding: 20px 0 24px 74px;
+  padding: 20px 10px 24px 230px;
   background-color: transparent;
   background: url("/img/ol_logo.png");
   background-image: url("/svg/ol_logo.svg"), none;
-  background-size: 204px 40px;
+  background-size: 209px 40px;
   background-repeat:  no-repeat;
   line-height: 0px;
   opacity:0.9;
   filter:alpha(opacity=90);
-  background-position: 15px 0px;
+  background-position: 15px 3px;
 }
 
 
