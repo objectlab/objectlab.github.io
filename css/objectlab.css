@@ -35,9 +35,9 @@ h1, .h1, h2, .h2, h3, .h3 {
   font-weight: 600;
   padding: 20px 0 24px 74px;
   background-color: transparent;
-  background: url("/img/OL.png");
-  background-image: url("/svg/OL.svg"), none;
-  background-size: 51px 41px;
+  background: url("/img/ol_logo.png");
+  background-image: url("/svg/ol_logo.svg"), none;
+  background-size: 204px 40px;
   background-repeat:  no-repeat;
   line-height: 0px;
   opacity:0.9;
